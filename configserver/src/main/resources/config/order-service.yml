@@ -3,6 +3,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/order
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   jpa:
     database: POSTGRESQL
     show-sql: true
@@ -12,3 +17,12 @@ spring:
 
 server:
   port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app:
+  message: "Hello Order!"
