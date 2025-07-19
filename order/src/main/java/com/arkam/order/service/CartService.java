@@ -1,6 +1,8 @@
 package com.arkam.order.service;
 
+import com.arkam.order.clients.ProductServiceClient;
 import com.arkam.order.dto.CartItemRequest;
+import com.arkam.order.dto.ProductResponse;
 import com.arkam.order.model.CartItem;
 
 import com.arkam.order.repository.CartItemRepository;
@@ -18,17 +20,14 @@ import java.util.Optional;
 @Transactional
 public class CartService {
     private final CartItemRepository cartItemRepository;
+    private final ProductServiceClient productServiceClient;
 
     public boolean addToCart(String userId, CartItemRequest request) {
-//        // Look for product
-//        Optional<Product> productOpt = productRepository.findById(request.getProductId());
-//        if (productOpt.isEmpty())
-//            return false;
-//
-//        Product product = productOpt.get();
-//        if (product.getStockQuantity() < request.getQuantity())
-//            return false;
-//
+        // Look for product
+        ProductResponse productResponse = productServiceClient.getProductDetails(request.getProductId());
+        if (productResponse == null || productResponse.getStockQuantity() < request.getQuantity())
+            return false;
+
 //        Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
 //        if (userOpt.isEmpty())
 //            return false;
