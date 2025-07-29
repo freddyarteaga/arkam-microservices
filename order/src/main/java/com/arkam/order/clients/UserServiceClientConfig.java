@@ -11,21 +11,18 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.util.Optional;
 
 @Configuration
-public class ProductServiceClientConfig {
+public class UserServiceClientConfig {
     @Bean
-    public ProductServiceClient  productServiceInterface(RestClient.Builder restClientBuilder) {
-//        se crea la instancia del cliente rest
+    public UserServiceClient  userServiceInterface(RestClient.Builder restClientBuilder) {
         RestClient restClient = restClientBuilder
-                .baseUrl("http://product-service")
-//                gestor de estado de error por defecto, que devuelve un opcional y luego lo construye
+                .baseUrl("http://user-service")
                 .defaultStatusHandler(HttpStatusCode::is4xxClientError,
                         ((request, response) -> Optional.empty()))
                 .build();
-//        adaptador de cliente qu eobtiene el servicio http
         RestClientAdapter adapter = RestClientAdapter.create(restClient);
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                 .builderFor(adapter).build();
 
-        return factory.createClient(ProductServiceClient.class);
+        return factory.createClient(UserServiceClient.class);
     }
 }
