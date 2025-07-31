@@ -1,0 +1,111 @@
+2025-07-29T23:16:08.772-05:00  INFO 15212 --- [product-service] [main] com.arkam.product.ProductApplication     : Starting ProductApplication using Java 22.0.2 with PID 15212 (C:\Users\Freddy\OneDrive\Desktop\ARKAM SpringBoot\arkam-microservices\product\target\classes started by Freddy in C:\Users\Freddy\OneDrive\Desktop\ARKAM SpringBoot\arkam-microservices)
+2025-07-29T23:16:08.776-05:00  INFO 15212 --- [product-service] [main] com.arkam.product.ProductApplication     : No active profile set, falling back to 1 default profile: "default"
+2025-07-29T23:16:08.840-05:00  INFO 15212 --- [product-service] [main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2025-07-29T23:16:08.842-05:00  INFO 15212 --- [product-service] [main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=product-service, profiles=[default], label=null, version=null, state=null
+2025-07-29T23:16:10.795-05:00  INFO 15212 --- [product-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-29T23:16:11.042-05:00  INFO 15212 --- [product-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 231 ms. Found 1 JPA repository interface.
+2025-07-29T23:16:11.461-05:00  INFO 15212 --- [product-service] [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2025-07-29T23:16:11.474-05:00  INFO 15212 --- [product-service] [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2025-07-29T23:16:11.698-05:00  INFO 15212 --- [product-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=eed3294e-9b2a-377b-9063-a96a41af6c7d
+2025-07-29T23:16:12.816-05:00  INFO 15212 --- [product-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-07-29T23:16:12.839-05:00  INFO 15212 --- [product-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-29T23:16:12.840-05:00  INFO 15212 --- [product-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-07-29T23:16:12.941-05:00  INFO 15212 --- [product-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-29T23:16:12.942-05:00  INFO 15212 --- [product-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4097 ms
+2025-07-29T23:16:13.473-05:00  INFO 15212 --- [product-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-29T23:16:13.579-05:00  INFO 15212 --- [product-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.15.Final
+2025-07-29T23:16:13.651-05:00  INFO 15212 --- [product-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-29T23:16:14.172-05:00  INFO 15212 --- [product-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-29T23:16:14.229-05:00  INFO 15212 --- [product-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-29T23:16:14.480-05:00  INFO 15212 --- [product-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38ae69f7
+2025-07-29T23:16:14.484-05:00  INFO 15212 --- [product-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-29T23:16:14.550-05:00  WARN 15212 --- [product-service] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-07-29T23:16:14.601-05:00  INFO 15212 --- [product-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 14.18
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-07-29T23:16:16.459-05:00  INFO 15212 --- [product-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-29T23:16:16.569-05:00  INFO 15212 --- [product-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-29T23:16:17.372-05:00  INFO 15212 --- [product-service] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-29T23:16:18.735-05:00  WARN 15212 --- [product-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-29T23:16:20.129-05:00  WARN 15212 --- [product-service] [main] c.f.c.c.BeanFactoryAwareFunctionRegistry : Failed to locate function 'busConsumer' for function definition 'busConsumer'. Returning null.
+2025-07-29T23:16:20.244-05:00  INFO 15212 --- [product-service] [main] o.s.c.s.m.DirectWithAttributesChannel    : Channel 'product-service.springCloudBusInput' has 1 subscriber(s).
+2025-07-29T23:16:20.627-05:00  INFO 15212 --- [product-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2025-07-29T23:16:20.702-05:00  WARN 15212 --- [product-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-07-29T23:16:20.711-05:00  INFO 15212 --- [product-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 24 endpoints beneath base path '/actuator'
+2025-07-29T23:16:20.898-05:00  INFO 15212 --- [product-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel errorChannel
+2025-07-29T23:16:20.905-05:00  INFO 15212 --- [product-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel springCloudBusInput
+2025-07-29T23:16:20.909-05:00  INFO 15212 --- [product-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel nullChannel
+2025-07-29T23:16:20.915-05:00  INFO 15212 --- [product-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageHandler _org.springframework.integration.errorLogger
+2025-07-29T23:16:20.929-05:00  INFO 15212 --- [product-service] [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-07-29T23:16:20.929-05:00  INFO 15212 --- [product-service] [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'product-service.errorChannel' has 1 subscriber(s).
+2025-07-29T23:16:20.929-05:00  INFO 15212 --- [product-service] [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2025-07-29T23:16:20.986-05:00  INFO 15212 --- [product-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2025-07-29T23:16:21.014-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2025-07-29T23:16:21.019-05:00  INFO 15212 --- [product-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-07-29T23:16:21.028-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-07-29T23:16:21.028-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-07-29T23:16:21.029-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-07-29T23:16:21.029-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-07-29T23:16:21.029-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-07-29T23:16:21.029-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2025-07-29T23:16:21.030-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-07-29T23:16:21.271-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2025-07-29T23:16:21.274-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2025-07-29T23:16:21.279-05:00  INFO 15212 --- [product-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-07-29T23:16:21.281-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1753848981281 with initial instances count: 4
+2025-07-29T23:16:21.287-05:00  INFO 15212 --- [product-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application PRODUCT-SERVICE with eureka with status UP
+2025-07-29T23:16:21.287-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1753848981287, current=UP, previous=STARTING]
+2025-07-29T23:16:21.290-05:00  INFO 15212 --- [product-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PRODUCT-SERVICE/DESKTOP-4VMN807.mshome.net:product-service:8081: registering service...
+2025-07-29T23:16:21.290-05:00  INFO 15212 --- [product-service] [main] o.s.c.s.binder.DefaultBinderFactory      : Creating binder: rabbit
+2025-07-29T23:16:21.291-05:00  INFO 15212 --- [product-service] [main] o.s.c.s.binder.DefaultBinderFactory      : Constructing binder child context for rabbit
+2025-07-29T23:16:21.349-05:00  INFO 15212 --- [product-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PRODUCT-SERVICE/DESKTOP-4VMN807.mshome.net:product-service:8081 - registration status: 204
+2025-07-29T23:16:21.417-05:00  INFO 15212 --- [product-service] [main] o.s.c.s.binder.DefaultBinderFactory      : Caching the binder: rabbit
+2025-07-29T23:16:21.441-05:00  INFO 15212 --- [product-service] [main] c.s.b.r.p.RabbitExchangeQueueProvisioner : declaring queue for inbound: springCloudBus.anonymous.F8gqH3MtQ_qTWBcC29dhMQ, bound to: springCloudBus
+2025-07-29T23:16:21.446-05:00  INFO 15212 --- [product-service] [main] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:5672]
+2025-07-29T23:16:21.504-05:00  INFO 15212 --- [product-service] [main] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#5dbd49aa:0/SimpleConnection@661de25 [delegate=amqp://guest@127.0.0.1:5672/, localPort=64278]
+2025-07-29T23:16:21.574-05:00  INFO 15212 --- [product-service] [main] o.s.c.stream.binder.BinderErrorChannel   : Channel 'rabbit-708891394.springCloudBusInput.errors' has 1 subscriber(s).
+2025-07-29T23:16:21.577-05:00  INFO 15212 --- [product-service] [main] o.s.c.stream.binder.BinderErrorChannel   : Channel 'rabbit-708891394.springCloudBusInput.errors' has 2 subscriber(s).
+2025-07-29T23:16:21.606-05:00  INFO 15212 --- [product-service] [main] o.s.i.a.i.AmqpInboundChannelAdapter      : started bean 'inbound.springCloudBus.anonymous.F8gqH3MtQ_qTWBcC29dhMQ'
+2025-07-29T23:16:21.625-05:00  INFO 15212 --- [product-service] [main] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2025-07-29T23:16:22.607-05:00  INFO 15212 --- [product-service] [main] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+2025-07-29T23:16:22.608-05:00  INFO 15212 --- [product-service] [main] o.s.i.a.i.AmqpInboundChannelAdapter      : stopped bean 'inbound.springCloudBus.anonymous.F8gqH3MtQ_qTWBcC29dhMQ'
+2025-07-29T23:16:22.655-05:00  INFO 15212 --- [product-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel rabbit-708891394.springCloudBusInput.errors
+2025-07-29T23:16:22.667-05:00  INFO 15212 --- [product-service] [main] o.s.c.stream.binder.BinderErrorChannel   : Channel 'product-service.rabbit-708891394.springCloudBusInput.errors' has 1 subscriber(s).
+2025-07-29T23:16:22.669-05:00  INFO 15212 --- [product-service] [main] o.s.c.stream.binder.BinderErrorChannel   : Channel 'product-service.rabbit-708891394.springCloudBusInput.errors' has 0 subscriber(s).
+2025-07-29T23:16:22.703-05:00  INFO 15212 --- [product-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application PRODUCT-SERVICE with eureka with status DOWN
+2025-07-29T23:16:22.705-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1753848982705, current=DOWN, previous=UP]
+2025-07-29T23:16:22.705-05:00  INFO 15212 --- [product-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PRODUCT-SERVICE/DESKTOP-4VMN807.mshome.net:product-service:8081: registering service...
+2025-07-29T23:16:22.714-05:00  INFO 15212 --- [product-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PRODUCT-SERVICE/DESKTOP-4VMN807.mshome.net:product-service:8081 - registration status: 204
+2025-07-29T23:16:22.714-05:00  INFO 15212 --- [product-service] [main] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-07-29T23:16:22.714-05:00  INFO 15212 --- [product-service] [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'product-service.errorChannel' has 0 subscriber(s).
+2025-07-29T23:16:22.715-05:00  INFO 15212 --- [product-service] [main] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2025-07-29T23:16:22.716-05:00  WARN 15212 --- [product-service] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-07-29T23:16:22.731-05:00  INFO 15212 --- [product-service] [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-29T23:16:22.735-05:00  INFO 15212 --- [product-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-29T23:16:22.742-05:00  INFO 15212 --- [product-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-07-29T23:16:22.745-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2025-07-29T23:16:25.752-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2025-07-29T23:16:25.773-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PRODUCT-SERVICE/DESKTOP-4VMN807.mshome.net:product-service:8081 - deregister  status: 200
+2025-07-29T23:16:25.774-05:00  INFO 15212 --- [product-service] [main] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2025-07-29T23:16:25.796-05:00  INFO 15212 --- [product-service] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-29T23:16:25.829-05:00 ERROR 15212 --- [product-service] [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
