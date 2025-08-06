@@ -1,4 +1,4 @@
-package com.arkam.user.model;
+package com.arkam.user.domain.model;
 
 public enum UserRole {
     CUSTOMER, ADMIN

@@ -1,12 +1,9 @@
-package com.arkam.user.model;
-
+package com.arkam.user.adapter.in.rest.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-public class Address {
-    private Long id;
+public class AddressDTO {
     private String street;
     private String city;
     private String state;
