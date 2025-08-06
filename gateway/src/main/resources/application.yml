@@ -3,23 +3,46 @@ spring:
     name: gateway
   cloud:
     gateway:
-      routes:
-        - id: product-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/products/**
-        - id: user-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/users/**
-        - id: order-service
-          uri: http://localhost:8083
-          predicates:
-            - Path=/api/orders/**, /api/cart/**
+      server:
+        webflux:
+          routes:
+            - id: product-service
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/api/products/**
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/users/**
+            - id: order-service
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/api/orders/**, /api/cart/**
+            - id: eureka-server
+              uri: http://localhost:8761
+              predicates:
+                - Path=/eureka/main
+              filters:
+                - RewritePath=/eureka/main, /
+            - id: eureka-server-static
+              uri: http://localhost:8761
+              predicates:
+                - Path=/eureka/**
+              filters:
+                - RewritePath=/eureka/(?<segment>.*), /${segment}
+
 
 
 server:
   port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
 
 #logging:
 #  level:

@@ -23,11 +23,17 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port}
+
 
 logging:
   file:
     name: logs/${spring.application.name}.log
   logback:
-    rollingpolicy:
+    rolling policy:
       max-file-size: 5MB
       max-history: 7
