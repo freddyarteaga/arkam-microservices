@@ -1,52 +1,5 @@
 spring:
   application:
-    name: gateway
-  cloud:
-    gateway:
-      server:
-        webflux:
-          routes:
-            - id: product-service
-              uri: lb://PRODUCT-SERVICE
-              predicates:
-                - Path=/api/products/**
-            - id: user-service
-              uri: lb://USER-SERVICE
-              predicates:
-                - Path=/api/users/**
-            - id: order-service
-              uri: lb://ORDER-SERVICE
-              predicates:
-                - Path=/api/orders/**, /api/cart/**
-            - id: eureka-server
-              uri: http://localhost:8761
-              predicates:
-                - Path=/eureka/main
-              filters:
-                - RewritePath=/eureka/main, /
-            - id: eureka-server-static
-              uri: http://localhost:8761
-              predicates:
-                - Path=/eureka/**
-              filters:
-                - RewritePath=/eureka/(?<segment>.*), /${segment}
-
-
-
-server:
-  port: 8080
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-
-
-#logging:
-#  level:
-#    root: info
-#    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
-#    org.springframework.cloud.gateway: TRACE
-
+    name: gateway-service
+  config:
+    import: optional:configserver:http://localhost:8888
