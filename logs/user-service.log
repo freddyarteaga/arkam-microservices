@@ -1197,3 +1197,11 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 2025-08-11T21:31:21.170-05:00  INFO 32176 --- [user-service] [RMI TCP Connection(2)-192.168.1.11] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-08-11T21:31:21.171-05:00  INFO 32176 --- [user-service] [RMI TCP Connection(2)-192.168.1.11] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-08-11T21:31:21.178-05:00  INFO 32176 --- [user-service] [RMI TCP Connection(2)-192.168.1.11] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2025-08-11T21:36:20.220-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T21:41:20.226-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T21:46:20.228-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T21:51:20.230-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T21:56:20.242-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T22:01:20.254-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T22:06:20.263-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-08-11T22:11:20.274-05:00  INFO 32176 --- [user-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
