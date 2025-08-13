@@ -26,9 +26,9 @@ public class CartService {
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
 
-    @CircuitBreaker(name = "productService")
+    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallBack")
     public boolean addToCart(String userId, CartItemRequest request) {
-        // Look for product
+        // Mira por producto
         ProductResponse productResponse = productServiceClient.getProductDetails(request.getProductId());
         if (productResponse == null || productResponse.getStockQuantity() < request.getQuantity())
             return false;
@@ -40,12 +40,12 @@ public class CartService {
 
         CartItem existingCartItem = cartItemRepository.findByUserIdAndProductId(userId, request.getProductId());
         if (existingCartItem != null) {
-            // Update the quantity
+            // Actualiza la cantidad
             existingCartItem.setQuantity(existingCartItem.getQuantity() + request.getQuantity());
             existingCartItem.setPrice(BigDecimal.valueOf(1000.00));
             cartItemRepository.save(existingCartItem);
         } else {
-            // Create new cart item
+            // Crea u nuevo item en el carrito
             CartItem cartItem = new CartItem();
             cartItem.setUserId(userId);
             cartItem.setProductId(request.getProductId());
@@ -54,6 +54,13 @@ public class CartService {
             cartItemRepository.save(cartItem);
         }
         return true;
+    }
+
+    public boolean addToCartFallBack(String userId,
+                                     CartItemRequest request,
+                                     Exception exception) {
+        exception.printStackTrace();
+        return false;
     }
 
     public boolean deleteItemFromCart(String userId, String productId) {

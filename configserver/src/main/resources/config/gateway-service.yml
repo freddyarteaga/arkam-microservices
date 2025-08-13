@@ -38,10 +38,26 @@ management:
     web:
       exposure:
         include: "*"
-  tracing:
-    sampling:
-      probability: 1.0
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
 
+# Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      ecomBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowType: count_based
 
 #logging:
 #  level:
