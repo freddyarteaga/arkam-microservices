@@ -3,6 +3,7 @@ package com.arkam.order.service;
 import com.arkam.order.clients.ProductServiceClient;
 import com.arkam.order.clients.UserServiceClient;
 import com.arkam.order.dto.CartItemRequest;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import com.arkam.order.dto.ProductResponse;
 import com.arkam.order.dto.UserResponse;
 import com.arkam.order.model.CartItem;
@@ -25,6 +26,7 @@ public class CartService {
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
 
+    @CircuitBreaker(name = "productService")
     public boolean addToCart(String userId, CartItemRequest request) {
         // Look for product
         ProductResponse productResponse = productServiceClient.getProductDetails(request.getProductId());
