@@ -4,6 +4,7 @@ import com.arkam.order.clients.ProductServiceClient;
 import com.arkam.order.clients.UserServiceClient;
 import com.arkam.order.dto.CartItemRequest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import com.arkam.order.dto.ProductResponse;
 import com.arkam.order.dto.UserResponse;
 import com.arkam.order.model.CartItem;
@@ -26,8 +27,12 @@ public class CartService {
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
 
-    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallBack")
+    int attempt = 0;
+
+//    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallBack")
+    @Retry(name = "retryBreaker", fallbackMethod = "addToCartFallBack")
     public boolean addToCart(String userId, CartItemRequest request) {
+        System.out.println("ATTEMPT COUNT: " + ++attempt);
         // Mira por producto
         ProductResponse productResponse = productServiceClient.getProductDetails(request.getProductId());
         if (productResponse == null || productResponse.getStockQuantity() < request.getQuantity())
