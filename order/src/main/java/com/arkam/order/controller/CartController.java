@@ -22,7 +22,7 @@ public class CartController {
             @RequestHeader("X-User-ID") String userId,
             @RequestBody CartItemRequest request) {
         if (!cartService.addToCart(userId, request)) {
-            return ResponseEntity.badRequest().body("Not able to complete the request");
+            return ResponseEntity.badRequest().body("No se pudo completar la solicitud");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
