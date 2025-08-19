@@ -19,11 +19,11 @@ public class OrderEventConsumer {
         System.out.println("Order ID: " + orderId);
         System.out.println("Order Status: " + orderStatus);
 
-        // Update Database
-        // Send Notification
-        // Send Emails
-        // Generate Invoice
-        // Send Seller Notification
+        // Actualizar base de datos
+        // Enviar notificación
+        // Enviar emails
+        // Generar factura
+        // Enviar seller notificación
 
     }
 }

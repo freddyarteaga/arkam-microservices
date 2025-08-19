@@ -83,8 +83,7 @@ public class OrderService {
 
         rabbitTemplate.convertAndSend(exchangeName,
                 routingKey,
-                Map.of("orderId",
-                        savedOrder.getId(), "status", "CREATED"));
+                event);
 
         return Optional.of(mapToOrderResponse(savedOrder));
     }
