@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignore all .env files in the project
+.env
+**/.env
+logs
+**/logs
+
 ### STS ###
 .apt_generated
 .classpath
