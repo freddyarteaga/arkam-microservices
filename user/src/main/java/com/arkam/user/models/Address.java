@@ -1,9 +1,10 @@
-package com.arkam.user.adapter.in.rest.dto;
+package com.arkam.user.models;
 
 import lombok.Data;
 
 @Data
-public class AddressDTO {
+public class Address {
+    private Long id;
     private String street;
     private String city;
     private String state;

@@ -25,9 +25,9 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/api/products/**").hasRole("PRODUCT")
-                        .pathMatchers("/api/orders/**").hasRole("ORDER")
-                        .pathMatchers("/api/users/**").hasRole("USER")
+//                        .pathMatchers("/api/products/**").hasRole("PRODUCT")
+//                        .pathMatchers("/api/orders/**").hasRole("ORDER")
+//                        .pathMatchers("/api/users/**").hasRole("USER")
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
@@ -46,7 +46,7 @@ public class SecurityConfig {
                             .get("roles").stream())
                     .toList();
 
-            System.out.println("Roles Extraidos: " + roles);
+            System.out.println("Extracted Roles: " + roles);
 
             return Flux.fromIterable(roles)
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role));

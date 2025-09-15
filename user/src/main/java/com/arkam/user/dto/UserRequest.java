@@ -1,14 +1,14 @@
-package com.arkam.user.adapter.in.rest.dto;
+package com.arkam.user.dto;
 
-import com.arkam.user.domain.model.UserRole;
 import lombok.Data;
 
 @Data
 public class UserRequest {
+    private String username;
     private String firstName;
     private String lastName;
+    private String password;
     private String email;
     private String phone;
     private AddressDTO address;
-    private UserRole role;
 }

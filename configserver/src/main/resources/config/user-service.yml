@@ -39,3 +39,13 @@ logging:
     rolling policy:
       max-file-size: 5MB
       max-history: 7
+
+# KEYCLOAK
+keycloak:
+  admin:
+    username: user
+    password: user
+    server-url: http://localhost:8443
+    realm: arkam-app
+    client-id: admin-cli
+    client-uid: df0ad3b6-4cef-4949-b440-02ebf377698e
