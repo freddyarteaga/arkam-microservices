@@ -1,17 +1,16 @@
-package com.arkam.product.model;
+package com.arkam.product.domain.model;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
-@Table(name = "products")
-public class ProductEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+@AllArgsConstructor
+public class Product {
     private Long id;
     private String name;
     private String description;
@@ -22,5 +21,4 @@ public class ProductEntity {
     private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 }

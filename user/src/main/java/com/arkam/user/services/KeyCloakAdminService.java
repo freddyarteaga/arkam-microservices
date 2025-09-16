@@ -89,13 +89,13 @@ public class KeyCloakAdminService {
         );
 
         if (!HttpStatus.CREATED.equals(response.getStatusCode())) {
-            throw new RuntimeException("Failed to create user in keycloak " + response.getBody());
+            throw new RuntimeException("Fallo al crear el usuario en Keycloak " + response.getBody());
         }
 
         // Extract Keycloak user id
         URI location = response.getHeaders().getLocation();
         if (location == null) {
-            throw new RuntimeException("Keycloak did not return Location Header " + response.getBody());
+            throw new RuntimeException("Keycloak no puede retornar la información del Header " + response.getBody());
         }
 
         String path = location.getPath();
@@ -141,8 +141,8 @@ public class KeyCloakAdminService {
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException(
-                    "Failed to assign role " + roleName +
-                            " to user " + username +
+                    "Falla al asignar el role " + roleName +
+                            " al usuario " + username +
                             ": HTTP " + response.getStatusCode()
             );
         }

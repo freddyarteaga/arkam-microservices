@@ -37,8 +37,8 @@ public class UserService {
         updateUserFromRequest(user, userRequest);
         user.setKeycloakId(keycloakUserId);
 
-//        keyCloakAdminService.assignRealmRoleToUser(userRequest.getUsername(),
-//                "USER", keycloakUserId);
+        keyCloakAdminService.assignRealmRoleToUser(userRequest.getUsername(),
+                "USER", keycloakUserId);
         userRepository.save(user);
     }
 

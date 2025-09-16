@@ -5,8 +5,6 @@ import com.arkam.user.dto.UserResponse;
 import com.arkam.user.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +30,11 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser(@PathVariable String id){
         log.info("Request received for user: {}", id);
 
-        log.trace("This is TRACE level - Very detailed logs");
-        log.debug("This is DEBUG level - Used for development debugging");
-        log.info("This is INFO level - General system information");
-        log.warn("This is WARN level - Something might be wrong");
-        log.error("This is ERROR level - Something failed");
+        log.trace("This is TRACE level - Verifica detalles de Logs");
+        log.debug("This is DEBUG level - Usado para debuggear en desarrollo");
+        log.info("This is INFO level - Información general del sistema");
+        log.warn("This is WARN level - Algo puede presentar error");
+        log.error("This is ERROR level - Algo puede fallar");
 
         return userService.fetchUser(id)
                 .map(ResponseEntity::ok)
@@ -46,7 +44,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest){
         userService.addUser(userRequest);
-        return ResponseEntity.ok("User added successfully");
+        return ResponseEntity.ok("Usuario Agregado Exitosamente");
     }
 
     @PutMapping("/{id}")
@@ -54,7 +52,7 @@ public class UserController {
                                              @RequestBody UserRequest updateUserRequest){
         boolean updated = userService.updateUser(id, updateUserRequest);
         if (updated)
-            return ResponseEntity.ok("User updated successfully");
+            return ResponseEntity.ok("Usuario actualizado exitosamente");
         return ResponseEntity.notFound().build();
     }
 }

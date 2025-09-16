@@ -1,4 +1,4 @@
-package com.arkam.product.domain;
+package com.arkam.product.application.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductResponseDto {
     private Long id;
     private String name;
     private String description;
@@ -21,6 +21,4 @@ public class Product {
     private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    // getters, setters, constructores
 }
