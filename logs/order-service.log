@@ -1,97 +1,29 @@
-2025-09-15T19:36:35.895-05:00  INFO 4796 --- [order-service] [main] com.arkam.order.OrderApplication         : Starting OrderApplication using Java 22.0.2 with PID 4796 (C:\Users\Freddy\OneDrive\Desktop\ARKAM SpringBoot\arkam-microservices\order\target\classes started by Freddy in C:\Users\Freddy\OneDrive\Desktop\ARKAM SpringBoot\arkam-microservices)
-2025-09-15T19:36:35.912-05:00  INFO 4796 --- [order-service] [main] com.arkam.order.OrderApplication         : No active profile set, falling back to 1 default profile: "default"
-2025-09-15T19:36:35.998-05:00  INFO 4796 --- [order-service] [main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
-2025-09-15T19:36:35.999-05:00  INFO 4796 --- [order-service] [main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=order-service, profiles=[default], label=null, version=null, state=null
-2025-09-15T19:36:39.188-05:00  INFO 4796 --- [order-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-15T19:36:39.584-05:00  INFO 4796 --- [order-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 373 ms. Found 2 JPA repository interfaces.
-2025-09-15T19:36:40.024-05:00  INFO 4796 --- [order-service] [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-2025-09-15T19:36:40.046-05:00  INFO 4796 --- [order-service] [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-2025-09-15T19:36:40.441-05:00  INFO 4796 --- [order-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=075e75b9-51a9-3688-82ad-50ecc590042b
-2025-09-15T19:36:42.105-05:00  INFO 4796 --- [order-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
-2025-09-15T19:36:42.136-05:00  INFO 4796 --- [order-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-09-15T19:36:42.138-05:00  INFO 4796 --- [order-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
-2025-09-15T19:36:42.265-05:00  INFO 4796 --- [order-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-09-15T19:36:42.266-05:00  INFO 4796 --- [order-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6263 ms
-2025-09-15T19:36:43.099-05:00  INFO 4796 --- [order-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-15T19:36:43.235-05:00  INFO 4796 --- [order-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.15.Final
-2025-09-15T19:36:43.304-05:00  INFO 4796 --- [order-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-15T19:36:44.014-05:00  INFO 4796 --- [order-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-15T19:36:44.093-05:00  INFO 4796 --- [order-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-15T19:36:44.505-05:00  INFO 4796 --- [order-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@755fdfad
-2025-09-15T19:36:44.511-05:00  INFO 4796 --- [order-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-15T19:36:44.652-05:00  WARN 4796 --- [order-service] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-15T19:36:44.720-05:00  INFO 4796 --- [order-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 14.18
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-09-15T19:36:46.895-05:00  INFO 4796 --- [order-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-15T19:36:47.315-05:00  INFO 4796 --- [order-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-15T19:36:49.426-05:00  WARN 4796 --- [order-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-15T19:36:53.311-05:00  INFO 4796 --- [order-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2025-09-15T19:36:53.536-05:00  WARN 4796 --- [order-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2025-09-15T19:36:53.581-05:00  INFO 4796 --- [order-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 31 endpoints beneath base path '/actuator'
-2025-09-15T19:36:54.151-05:00  INFO 4796 --- [order-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel errorChannel
-2025-09-15T19:36:54.161-05:00  INFO 4796 --- [order-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageChannel nullChannel
-2025-09-15T19:36:54.181-05:00  INFO 4796 --- [order-service] [main] figuration$IntegrationJmxConfiguration$1 : Registering MessageHandler _org.springframework.integration.errorLogger
-2025-09-15T19:36:54.216-05:00  INFO 4796 --- [order-service] [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-2025-09-15T19:36:54.217-05:00  INFO 4796 --- [order-service] [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'order-service.errorChannel' has 1 subscriber(s).
-2025-09-15T19:36:54.218-05:00  INFO 4796 --- [order-service] [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
-2025-09-15T19:36:54.240-05:00  INFO 4796 --- [order-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2025-09-15T19:36:54.290-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2025-09-15T19:36:54.298-05:00  INFO 4796 --- [order-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T19:36:54.315-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2025-09-15T19:36:54.316-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2025-09-15T19:36:54.316-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2025-09-15T19:36:54.316-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2025-09-15T19:36:54.316-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2025-09-15T19:36:54.317-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2025-09-15T19:36:54.317-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2025-09-15T19:36:54.654-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2025-09-15T19:36:54.658-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2025-09-15T19:36:54.661-05:00  INFO 4796 --- [order-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2025-09-15T19:36:54.663-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1757983014663 with initial instances count: 3
-2025-09-15T19:36:54.679-05:00  INFO 4796 --- [order-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application ORDER-SERVICE with eureka with status UP
-2025-09-15T19:36:54.680-05:00  INFO 4796 --- [order-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1757983014680, current=UP, previous=STARTING]
-2025-09-15T19:36:54.683-05:00  INFO 4796 --- [order-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/order-service:8083: registering service...
-2025-09-15T19:36:54.732-05:00  INFO 4796 --- [order-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
-2025-09-15T19:36:54.734-05:00  INFO 4796 --- [order-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8083
-2025-09-15T19:36:54.803-05:00  INFO 4796 --- [order-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/order-service:8083 - registration status: 204
-2025-09-15T19:36:54.818-05:00  INFO 4796 --- [order-service] [main] com.arkam.order.OrderApplication         : Started OrderApplication in 21.027 seconds (process running for 32.967)
-2025-09-15T19:41:54.375-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T19:46:54.434-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T19:51:54.488-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T19:56:54.530-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:01:54.571-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:06:54.615-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:11:54.649-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:16:54.682-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:21:54.712-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:26:54.739-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:31:54.763-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:36:54.786-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:41:54.809-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:46:54.824-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:51:54.841-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T20:56:54.858-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:01:54.871-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:06:54.883-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:11:54.894-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:16:54.905-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:21:54.914-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:26:54.924-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:31:54.933-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:36:54.940-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:41:54.947-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:46:54.968-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:51:54.976-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T21:56:54.991-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:01:55.006-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:06:55.021-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:11:55.030-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:16:55.044-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:21:55.054-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2025-09-15T22:26:55.064-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T07:43:50.013-05:00  WARN 4796 --- [order-service] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@268f5f63 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2025-09-16T07:43:50.131-05:00  WARN 4796 --- [order-service] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7h59m32s960ms341µs).
+2025-09-16T19:24:51.061-05:00  WARN 4796 --- [order-service] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=11h41m5s490ms357µs500ns).
+2025-09-16T19:26:42.449-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:31:42.462-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:36:42.464-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:41:42.469-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:46:42.446-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:51:42.420-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T19:56:42.403-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:01:42.394-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:06:42.390-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:11:42.377-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:16:42.368-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:21:42.358-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:26:42.348-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:31:42.336-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:36:42.326-05:00  INFO 4796 --- [order-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-09-16T20:39:51.551-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application ORDER-SERVICE with eureka with status DOWN
+2025-09-16T20:39:51.572-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1758073191571, current=DOWN, previous=UP]
+2025-09-16T20:39:51.607-05:00  INFO 4796 --- [order-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/order-service:8083: registering service...
+2025-09-16T20:39:52.070-05:00  INFO 4796 --- [order-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/order-service:8083 - registration status: 204
+2025-09-16T20:39:53.076-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-16T20:39:53.415-05:00  INFO 4796 --- [order-service] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-16T20:39:53.842-05:00  INFO 4796 --- [order-service] [DiscoveryClient-HeartbeatExecutor-%d] o.a.h.c.h.i.c.HttpRequestRetryExec       : Recoverable I/O exception (java.net.SocketException) caught when processing request to {}->[http://localhost:8761]
+2025-09-16T20:39:54.062-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-09-16T20:39:54.237-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'order-service.errorChannel' has 0 subscriber(s).
+2025-09-16T20:39:54.289-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2025-09-16T20:39:55.307-05:00  INFO 4796 --- [order-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
