@@ -12,7 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -48,5 +49,32 @@ public class UserController {
                                                      @Valid @RequestBody UpdateUserRequestDto updateUserRequest) {
         UserResponseDto updatedUser = updateUserUseCase.updateUser(id, updateUserRequest);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    // Reactive endpoints
+    @GetMapping("/reactive")
+    public Flux<ResponseEntity<UserResponseDto>> getAllUsersReactive() {
+        return getUserUseCase.getAllUsersReactive()
+                .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/reactive/{id}")
+    public Mono<ResponseEntity<UserResponseDto>> getUserReactive(@PathVariable String id) {
+        log.info("Reactive request received for user: {}", id);
+        return getUserUseCase.getUserByIdReactive(id)
+                .map(ResponseEntity::ok);
+    }
+
+    @PostMapping("/reactive")
+    public Mono<ResponseEntity<UserResponseDto>> createUserReactive(@Valid @RequestBody CreateUserRequestDto userRequest) {
+        return createUserUseCase.createUserReactive(userRequest)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.CREATED));
+    }
+
+    @PutMapping("/reactive/{id}")
+    public Mono<ResponseEntity<UserResponseDto>> updateUserReactive(@PathVariable String id,
+                                                                   @Valid @RequestBody UpdateUserRequestDto updateUserRequest) {
+        return updateUserUseCase.updateUserReactive(id, updateUserRequest)
+                .map(ResponseEntity::ok);
     }
 }

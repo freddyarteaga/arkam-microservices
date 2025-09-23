@@ -12,6 +12,8 @@ import com.arkam.product.application.port.out.ProductRepositoryPort;
 import com.arkam.product.domain.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,5 +68,51 @@ public class ProductService implements CreateProductUseCase, GetProductUseCase, 
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         product.setActive(false);
         productRepository.save(product);
+    }
+
+    // Reactive methods
+    public Mono<ProductResponseDto> createProductReactive(CreateProductRequestDto requestDto) {
+        return Mono.fromCallable(() -> {
+            Product product = productMapper.toProduct(requestDto);
+            Product savedProduct = productRepository.save(product);
+            return productMapper.toResponseDto(savedProduct);
+        });
+    }
+
+    public Mono<ProductResponseDto> updateProductReactive(Long id, UpdateProductRequestDto requestDto) {
+        return Mono.fromCallable(() -> {
+            Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+            productMapper.updateProductFromDto(product, requestDto);
+            Product updatedProduct = productRepository.save(product);
+            return productMapper.toResponseDto(updatedProduct);
+        });
+    }
+
+    public Flux<ProductResponseDto> findAllActiveProductsReactive() {
+        return Flux.fromIterable(productRepository.findByActiveTrue())
+            .map(productMapper::toResponseDto);
+    }
+
+    public Mono<ProductResponseDto> findProductByIdReactive(Long id) {
+        return Mono.fromCallable(() -> {
+            return productRepository.findById(id)
+                .map(productMapper::toResponseDto)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        });
+    }
+
+    public Flux<ProductResponseDto> searchProductsReactive(String keyword) {
+        return Flux.fromIterable(productRepository.searchProducts(keyword))
+            .map(productMapper::toResponseDto);
+    }
+
+    public Mono<Void> deleteProductReactive(Long id) {
+        return Mono.fromRunnable(() -> {
+            Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+            product.setActive(false);
+            productRepository.save(product);
+        });
     }
 }

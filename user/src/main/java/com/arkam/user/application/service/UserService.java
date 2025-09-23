@@ -13,6 +13,8 @@ import com.arkam.user.domain.model.User;
 import com.arkam.user.infrastructure.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,5 +63,45 @@ public class UserService implements CreateUserUseCase, GetUserUseCase, UpdateUse
         userMapper.updateUserFromDto(user, requestDto);
         User updatedUser = userRepository.save(user);
         return userMapper.toResponseDto(updatedUser);
+    }
+
+    // Reactive methods
+    public Mono<UserResponseDto> createUserReactive(CreateUserRequestDto requestDto) {
+        return Mono.fromCallable(() -> {
+            String token = keycloakPort.getAdminAccessToken();
+            String keycloakUserId = keycloakPort.createUser(token, requestDto);
+
+            User user = userMapper.toUser(requestDto);
+            user.setKeycloakId(keycloakUserId);
+
+            keycloakPort.assignRealmRoleToUser(requestDto.getUsername(), "USER", keycloakUserId);
+            
+            User savedUser = userRepository.save(user);
+            return userMapper.toResponseDto(savedUser);
+        });
+    }
+
+    public Flux<UserResponseDto> getAllUsersReactive() {
+        return Flux.fromIterable(userRepository.findAll())
+                .map(userMapper::toResponseDto);
+    }
+
+    public Mono<UserResponseDto> getUserByIdReactive(String id) {
+        return Mono.fromCallable(() -> {
+            return userRepository.findById(id)
+                    .map(userMapper::toResponseDto)
+                    .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + id));
+        });
+    }
+
+    public Mono<UserResponseDto> updateUserReactive(String id, UpdateUserRequestDto requestDto) {
+        return Mono.fromCallable(() -> {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + id));
+
+            userMapper.updateUserFromDto(user, requestDto);
+            User updatedUser = userRepository.save(user);
+            return userMapper.toResponseDto(updatedUser);
+        });
     }
 }

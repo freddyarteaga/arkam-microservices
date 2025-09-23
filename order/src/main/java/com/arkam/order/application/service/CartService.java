@@ -1,5 +1,6 @@
 package com.arkam.order.application.service;
 
+import com.arkam.order.domain.dto.CartResponse;
 import com.arkam.order.infrastructure.clients.ProductServiceClient;
 import com.arkam.order.infrastructure.clients.UserServiceClient;
 import com.arkam.order.domain.dto.CartItemRequest;
@@ -14,6 +15,7 @@ import com.arkam.order.infrastructure.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,7 +49,7 @@ public class CartService {
         if (existingCartItem != null) {
             // Actualiza la cantidad
             existingCartItem.setQuantity(existingCartItem.getQuantity() + request.getQuantity());
-            existingCartItem.setPrice(BigDecimal.valueOf(1000.00));
+            existingCartItem.setPrice(productResponse.getPrice());
             cartItemRepository.save(existingCartItem);
         } else {
             // Crea u nuevo item en el carrito
@@ -55,7 +57,7 @@ public class CartService {
             cartItem.setUserId(userId);
             cartItem.setProductId(request.getProductId());
             cartItem.setQuantity(request.getQuantity());
-            cartItem.setPrice(BigDecimal.valueOf(1000.00));
+            cartItem.setPrice(productResponse.getPrice());
             cartItemRepository.save(cartItem);
         }
         return true;
@@ -78,8 +80,22 @@ public class CartService {
         return false;
     }
 
-    public List<CartItem> getCart(String userId) {
-        return cartItemRepository.findByUserId(userId);
+    public CartResponse getCart(String userId) {
+        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+        int totalQuantity = cartItems.stream().mapToInt(CartItem::getQuantity).sum();
+        BigDecimal totalPrice = cartItems.stream()
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return CartResponse.builder()
+                .cartItems(cartItems)
+                .totalQuantity(totalQuantity)
+                .totalPrice(totalPrice)
+                .build();
+    }
+
+    public Mono<CartResponse> getCartReactive(String userId) {
+        return Mono.fromCallable(() -> getCart(userId));
     }
 
     public void clearCart(String userId) {

@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -61,5 +63,44 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         deleteProductUseCase.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Reactive endpoints
+    @PostMapping("/reactive")
+    public Mono<ResponseEntity<ProductResponseDto>> createProductReactive(@Valid @RequestBody CreateProductRequestDto requestDto) {
+        return createProductUseCase.createProductReactive(requestDto)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.CREATED));
+    }
+
+    @GetMapping("/reactive")
+    public Flux<ResponseEntity<ProductResponseDto>> getAllProductsReactive() {
+        return getProductUseCase.findAllActiveProductsReactive()
+                .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/reactive/{id}")
+    public Mono<ResponseEntity<ProductResponseDto>> getProductByIdReactive(@PathVariable Long id) {
+        return getProductUseCase.findProductByIdReactive(id)
+                .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/reactive/search")
+    public Flux<ResponseEntity<ProductResponseDto>> searchProductsReactive(@RequestParam String keyword) {
+        return getProductUseCase.searchProductsReactive(keyword)
+                .map(ResponseEntity::ok);
+    }
+
+    @PutMapping("/reactive/{id}")
+    public Mono<ResponseEntity<ProductResponseDto>> updateProductReactive(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateProductRequestDto requestDto) {
+        return updateProductUseCase.updateProductReactive(id, requestDto)
+                .map(ResponseEntity::ok);
+    }
+
+    @DeleteMapping("/reactive/{id}")
+    public Mono<ResponseEntity<Void>> deleteProductReactive(@PathVariable Long id) {
+        return deleteProductUseCase.deleteProductReactive(id)
+                .then(Mono.just(ResponseEntity.noContent().build()));
     }
 }
