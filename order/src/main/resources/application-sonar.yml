@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order
+    username: postgres
+    password: sasa
+
+  cloud:
+    stream:
+      bindings:
+        createOrder-out-0:
+          destination: order.exchange
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: false
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowType: count_based
+  retry:
+    instances:
+      retryBreaker:
+        maxAttempts: 5
+        waitDuration: 5s
+  ratelimiter:
+    instances:
+      rateBreaker:
+        timeout-duration: 0
+        limit-refresh-period: 4s
+        limit-for-period: 2

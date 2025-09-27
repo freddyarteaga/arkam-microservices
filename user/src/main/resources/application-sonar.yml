@@ -1,0 +1,45 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/arkam_user
+      database: arkam_user
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: guest
+    connection-timeout: 30000
+
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+
+keycloak:
+  admin:
+    username: user
+    password: user
+    server-url: http://localhost:8443
+    realm: arkam-app
+    client-id: admin-cli
+    client-uid: 74d31cf4-5808-43de-93e0-01a079063245
