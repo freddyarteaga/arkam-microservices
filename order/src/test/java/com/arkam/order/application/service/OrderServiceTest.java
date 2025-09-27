@@ -1,5 +1,6 @@
 package com.arkam.order.application.service;
 
+import com.arkam.order.domain.dto.CartResponse;
 import com.arkam.order.domain.dto.OrderCreatedEvent;
 import com.arkam.order.domain.dto.OrderItemDTO;
 import com.arkam.order.domain.dto.OrderResponse;
@@ -43,6 +44,8 @@ class OrderServiceTest {
 
     private Order order;
     private List<CartItem> cartItems;
+    private CartResponse cartResponse;
+    private CartResponse emptyCartResponse;
 
     @BeforeEach
     void setUp() {
@@ -86,13 +89,25 @@ class OrderServiceTest {
         orderItem2.setOrder(order);
 
         order.setItems(Arrays.asList(orderItem1, orderItem2));
+
+        cartResponse = CartResponse.builder()
+                .cartItems(cartItems)
+                .totalQuantity(3)
+                .totalPrice(new BigDecimal("35.00"))
+                .build();
+
+        emptyCartResponse = CartResponse.builder()
+                .cartItems(Collections.emptyList())
+                .totalQuantity(0)
+                .totalPrice(BigDecimal.ZERO)
+                .build();
     }
 
     @Test
     void createOrder_WithValidCartItems_ShouldReturnOrderResponse() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(cartItems);
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(cartResponse));
         when(orderRepository.save(any(Order.class))).thenReturn(order);
 
         // When
@@ -106,7 +121,6 @@ class OrderServiceTest {
         assertEquals(order.getStatus(), orderResponse.getStatus());
         assertEquals(2, orderResponse.getItems().size());
 
-        verify(cartService).getCart(userId);
         verify(orderRepository).save(any(Order.class));
         verify(cartService).clearCart(userId);
         verify(streamBridge).send(eq("createOrder-out-0"), any(OrderCreatedEvent.class));
@@ -116,14 +130,13 @@ class OrderServiceTest {
     void createOrder_WithEmptyCart_ShouldReturnEmpty() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(Collections.emptyList());
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(emptyCartResponse));
 
         // When
         Optional<OrderResponse> result = orderService.createOrder(userId).blockOptional();
 
         // Then
         assertFalse(result.isPresent());
-        verify(cartService).getCart(userId);
         verify(orderRepository, never()).save(any(Order.class));
         verify(cartService, never()).clearCart(anyString());
         verify(streamBridge, never()).send(anyString(), any());
@@ -133,7 +146,7 @@ class OrderServiceTest {
     void createOrder_ShouldCalculateTotalPriceCorrectly() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(cartItems);
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(cartResponse));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
             Order orderToSave = invocation.getArgument(0);
             orderToSave.setId(1L);
@@ -153,7 +166,7 @@ class OrderServiceTest {
     void createOrder_ShouldMapOrderItemsCorrectly() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(cartItems);
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(cartResponse));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
             Order orderToSave = invocation.getArgument(0);
             orderToSave.setId(1L);
@@ -185,7 +198,7 @@ class OrderServiceTest {
     void createOrder_ShouldPublishOrderCreatedEvent() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(cartItems);
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(cartResponse));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
             Order orderToSave = invocation.getArgument(0);
             orderToSave.setId(1L);
@@ -194,7 +207,7 @@ class OrderServiceTest {
         });
 
         // When
-        orderService.createOrder(userId);
+        orderService.createOrder(userId).block();
 
         // Then
         verify(streamBridge).send(eq("createOrder-out-0"), any(OrderCreatedEvent.class));
@@ -204,7 +217,7 @@ class OrderServiceTest {
     void createOrder_ShouldSetOrderStatusAsConfirmed() {
         // Given
         String userId = "USER-001";
-        when(cartService.getCart(userId)).thenReturn(cartItems);
+        when(cartService.getCartReactive(userId)).thenReturn(Mono.just(cartResponse));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
             Order orderToSave = invocation.getArgument(0);
             orderToSave.setId(1L);

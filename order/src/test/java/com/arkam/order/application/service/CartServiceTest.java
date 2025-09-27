@@ -188,7 +188,7 @@ class CartServiceTest {
         when(cartItemRepository.findByUserId(userId)).thenReturn(expectedCartItems);
 
         // When
-        List<CartItem> result = cartService.getCart(userId);
+        List<CartItem> result = cartService.getCart(userId).getCartItems();
 
         // Then
         assertEquals(1, result.size());
@@ -202,7 +202,7 @@ class CartServiceTest {
         when(cartItemRepository.findByUserId(userId)).thenReturn(Collections.emptyList());
 
         // When
-        List<CartItem> result = cartService.getCart(userId);
+        List<CartItem> result = cartService.getCart(userId).getCartItems();
 
         // Then
         assertTrue(result.isEmpty());

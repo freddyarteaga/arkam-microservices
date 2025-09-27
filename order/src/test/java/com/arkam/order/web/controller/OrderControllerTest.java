@@ -64,7 +64,7 @@ class OrderControllerTest {
     void createOrder_WithValidUserId_ShouldReturnCreatedResponse() {
         // Given
         String userId = "USER-001";
-        when(orderService.createOrder(userId)).thenReturn(Mono.empty());
+        when(orderService.createOrder(userId)).thenReturn(Mono.just(orderResponse));
 
         // When
         ResponseEntity<OrderResponse> response = orderController.createOrder(userId).block();

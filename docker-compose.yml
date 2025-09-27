@@ -67,6 +67,77 @@ services:
       - backend
     restart: unless-stopped
 
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:26.2.5
+    mem_limit: 700m
+    ports:
+      - "8443:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    command: [ "start-dev" ]
+    networks:
+      - backend
+
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongo
+    mem_limit: 700m
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - backend
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - backend
+    restart: unless-stopped
+
+  zipkin:
+    image: openzipkin/zipkin:2.24
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - backend
+    restart: unless-stopped
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: 'true'
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    networks:
+      - backend
+    restart: unless-stopped
+
 networks:
   backend:
     driver: bridge
@@ -74,3 +145,8 @@ networks:
 volumes:
   postgres:
   pgadmin:
+  grafana_data:
+  prometheus_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:

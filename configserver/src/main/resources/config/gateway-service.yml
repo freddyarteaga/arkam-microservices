@@ -42,19 +42,25 @@ server:
 #    org.springframework.cloud.gateway: TRACE
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-  health:
-    circuitbreakers:
-      enabled: true
-  tracing:
-    sampling:
-      probability: 1.0
+   endpoints:
+     web:
+       exposure:
+         include: "*"
+   endpoint:
+     health:
+       show-details: always
+   health:
+     circuitbreakers:
+       enabled: true
+   tracing:
+     sampling:
+       probability: 1.0
+otel:
+ traces:
+   exporter: zipkin
+ exporter:
+   zipkin:
+     endpoint: http://localhost:9411/api/v2/spans
 
 # Spring Cloud Gateway Route Configurations
 
