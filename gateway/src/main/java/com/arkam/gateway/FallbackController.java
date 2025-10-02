@@ -13,6 +13,6 @@ public class FallbackController {
     @GetMapping("/fallback/products")
     public ResponseEntity<List<String>> productsFallback() {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(Collections.singletonList("El servicio de producto no esta disponible, por favor intente mas tarde"));
+                .body(Collections.singletonList("Product service is unavailable, please try after sometime"));
     }
 }

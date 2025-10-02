@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/product
+    url: jdbc:postgresql://postgres:5432/product
+#    url: jdbc:mysql://localhost:3307/embarkx
     username: ${DB_USER}
     password: ${DB_PASSWORD}
   rabbitmq:
@@ -16,6 +17,9 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
 
 server:
   port: 8081
@@ -28,10 +32,6 @@ management:
   tracing:
     sampling:
       probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans
-
 
 app:
   message: "Hello Product!"
@@ -39,19 +39,15 @@ app:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    ip-address: 127.0.0.1
-    hostname: localhost
-    instance-id: ${spring.application.name}:${server.port}
+
 
 logging:
   file:
     name: logs/${spring.application.name}.log
   logback:
-    rolling policy:
+    rollingpolicy:
       max-file-size: 5MB
       max-history: 7

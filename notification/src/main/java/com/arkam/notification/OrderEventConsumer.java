@@ -1,14 +1,11 @@
 package com.arkam.notification;
 
-import com.arkam.notification.payload.OrderCreatedEvent;
+import com.ecommerce.notification.payload.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-
 
 @Service
 @Slf4j
@@ -34,8 +31,8 @@ public class OrderEventConsumer {
     @Bean
     public Consumer<OrderCreatedEvent> orderCreated() {
         return event -> {
-            log.info("Se ha recibido el evento de creación para el pedido\n: {}", event.getOrderId());
-            log.info("Se recibió el evento de orden creada para el usuario ID\n: {}", event.getUserId());
+            log.info("Received order created event for order: {}", event.getOrderId());
+            log.info("Received order created event for user id: {}", event.getUserId());
         };
     }
 }

@@ -16,7 +16,6 @@ spring:
         binder:
           brokers: localhost:9092
 
-
 #  rabbitmq:
 #    host: ${RABBITMQ_HOST:localhost}
 #    port: ${RABBITMQ_PORT:5672}

@@ -16,7 +16,6 @@ spring:
         binder:
           brokers: kafka:9092
 
-
 #  rabbitmq:
 #    host: ${RABBITMQ_HOST:localhost}
 #    port: ${RABBITMQ_PORT:5672}
@@ -26,20 +25,8 @@ spring:
 #    connection-timeout: 30000
 
 server:
-   port:
-     8084
-
-management:
-   endpoints:
-     web:
-       exposure:
-         include: "*"
-   tracing:
-     sampling:
-       probability: 1.0
-   zipkin:
-     tracing:
-       endpoint: http://zipkin:9411/api/v2/spans
+  port:
+    8084
 
 
 #rabbitmq:

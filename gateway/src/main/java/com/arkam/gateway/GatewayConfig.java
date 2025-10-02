@@ -1,6 +1,5 @@
 package com.arkam.gateway;
 
-
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -37,7 +36,7 @@ public class GatewayConfig {
                                         .setRateLimiter(redisRateLimiter())
                                         .setKeyResolver(hostNameKeyResolver()))
                                 .circuitBreaker(config -> config
-                                .setName("ecomArkam")
+                                .setName("arkamBreaker")
                                 .setFallbackUri("forward:/fallback/products")))
 //                        .filters(f -> f.rewritePath("/products(?<segment>/?.*)",
 //                                "/api/products${segment}"))
@@ -54,11 +53,11 @@ public class GatewayConfig {
                         .uri("lb://ORDER-SERVICE"))
                 .route("eureka-server", r -> r
                         .path("/eureka/main")
-                        .filters(f ->  f.rewritePath("/eureka/main", "/"))
+                        .filters(f -> f.rewritePath("/eureka/main", "/"))
+                        .uri("http://localhost:8761"))
+                .route("eureka-server-static", r -> r
+                        .path("/eureka/**")
                         .uri("http://localhost:8761"))
                 .build();
-
-
     }
-
 }
