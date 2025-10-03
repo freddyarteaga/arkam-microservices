@@ -1,9 +1,9 @@
 package com.arkam.product.services;
 
-import com.ecommerce.product.dtos.ProductRequest;
-import com.ecommerce.product.dtos.ProductResponse;
-import com.ecommerce.product.models.Product;
-import com.ecommerce.product.repositories.ProductRepository;
+import com.arkam.product.dtos.ProductRequest;
+import com.arkam.product.dtos.ProductResponse;
+import com.arkam.product.models.Product;
+import com.arkam.product.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

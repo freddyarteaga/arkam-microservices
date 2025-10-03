@@ -1,8 +1,8 @@
 package com.arkam.product.controllers;
 
-import com.ecommerce.product.dtos.ProductRequest;
-import com.ecommerce.product.dtos.ProductResponse;
-import com.ecommerce.product.services.ProductService;
+import com.arkam.product.dtos.ProductRequest;
+import com.arkam.product.dtos.ProductResponse;
+import com.arkam.product.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,13 +1,13 @@
 package com.arkam.order.services;
 
-import com.ecommerce.order.dtos.OrderCreatedEvent;
-import com.ecommerce.order.repositories.OrderRepository;
-import com.ecommerce.order.models.OrderStatus;
-import com.ecommerce.order.dtos.OrderItemDTO;
-import com.ecommerce.order.dtos.OrderResponse;
-import com.ecommerce.order.models.CartItem;
-import com.ecommerce.order.models.Order;
-import com.ecommerce.order.models.OrderItem;
+import com.arkam.order.dtos.OrderCreatedEvent;
+import com.arkam.order.repositories.OrderRepository;
+import com.arkam.order.models.OrderStatus;
+import com.arkam.order.dtos.OrderItemDTO;
+import com.arkam.order.dtos.OrderResponse;
+import com.arkam.order.models.CartItem;
+import com.arkam.order.models.Order;
+import com.arkam.order.models.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;

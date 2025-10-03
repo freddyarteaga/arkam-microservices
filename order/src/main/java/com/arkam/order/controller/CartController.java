@@ -1,8 +1,8 @@
 package com.arkam.order.controller;
 
-import com.ecommerce.order.models.CartItem;
-import com.ecommerce.order.dtos.CartItemRequest;
-import com.ecommerce.order.services.CartService;
+import com.arkam.order.models.CartItem;
+import com.arkam.order.dtos.CartItemRequest;
+import com.arkam.order.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

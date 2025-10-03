@@ -1,7 +1,7 @@
 package com.arkam.order.controller;
 
-import com.ecommerce.order.dtos.OrderResponse;
-import com.ecommerce.order.services.OrderService;
+import com.arkam.order.dtos.OrderResponse;
+import com.arkam.order.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.arkam.order.repositories;
 
-import com.ecommerce.order.models.CartItem;
+import com.arkam.order.models.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.ecommerce.notification.payload;
+package com.arkam.notification.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

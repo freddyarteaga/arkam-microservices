@@ -1,12 +1,12 @@
 package com.arkam.order.services;
 
-import com.ecommerce.order.clients.ProductServiceClient;
-import com.ecommerce.order.clients.UserServiceClient;
-import com.ecommerce.order.dtos.ProductResponse;
-import com.ecommerce.order.dtos.UserResponse;
-import com.ecommerce.order.repositories.CartItemRepository;
-import com.ecommerce.order.dtos.CartItemRequest;
-import com.ecommerce.order.models.CartItem;
+import com.arkam.order.clients.ProductServiceClient;
+import com.arkam.order.clients.UserServiceClient;
+import com.arkam.order.dtos.ProductResponse;
+import com.arkam.order.dtos.UserResponse;
+import com.arkam.order.repositories.CartItemRepository;
+import com.arkam.order.dtos.CartItemRequest;
+import com.arkam.order.models.CartItem;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;

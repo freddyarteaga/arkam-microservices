@@ -1,6 +1,6 @@
 package com.arkam.order.dtos;
 
-import com.ecommerce.order.models.OrderStatus;
+import com.arkam.order.models.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

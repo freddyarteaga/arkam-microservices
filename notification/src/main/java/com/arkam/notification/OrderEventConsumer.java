@@ -1,6 +1,6 @@
-package com.ecommerce.notification;
+package com.arkam.notification;
 
-import com.ecommerce.notification.payload.OrderCreatedEvent;
+import com.arkam.notification.payload.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
