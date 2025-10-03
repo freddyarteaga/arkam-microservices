@@ -1,4 +1,4 @@
-package com.arkam.notification;
+package com.ecommerce.notification;
 
 import com.ecommerce.notification.payload.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;

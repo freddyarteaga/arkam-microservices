@@ -73,7 +73,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
@@ -167,10 +167,7 @@ services:
       - 8082:8082
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/arkam_user?directConnection=true
-        # opcional, por claridad (no es necesaria si usas la DB en la URI)
-      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
-      - SPRING_DATA_MONGODB_DATABASE=arkam_user
+      - MONGO_URI=${MONGO_URI}
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
       - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
@@ -228,6 +225,23 @@ services:
       - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+    depends_on:
+      - mongo
+      - rabbitmq
+      - eureka
+      - keycloak
+      - config-server
+    networks:
+      - backend
+    restart: on-failure
+
+  notification-service:
+    #    build: ../../order
+    image: arkam/notification-service
+    container_name: notification-service
+    #    mem_limit: 700m
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mongo
       - rabbitmq
