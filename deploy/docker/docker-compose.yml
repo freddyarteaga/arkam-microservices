@@ -107,7 +107,7 @@ services:
 
   config-server:
     #    build: ../../configserver
-    image: arkam/config-server
+    image: freddyarte/config-server
     container_name: config-server
     ports:
       - 8888:8888
@@ -130,7 +130,7 @@ services:
 
   eureka:
     #    build: ../../eureka
-    image: arkam/eureka-server
+    image: freddyarte/eureka-server
     container_name: eureka
     ports:
       - 8761:8761
@@ -144,7 +144,7 @@ services:
 
   gateway-service:
     #    build: ../../gateway
-    image: arkam/gateway
+    image: freddyarte/gateway-service
     container_name: gateway
     #    mem_limit: 700m
     ports:
@@ -164,7 +164,7 @@ services:
 
   user-service:
     #    build: ../../user
-    image: arkam/user-service
+    image: freddyarte/user-service
     container_name: user-service
     #    mem_limit: 700m
     ports:
@@ -189,7 +189,7 @@ services:
 
   product-service:
     #    build: ../../product
-    image: arkam/product-service
+    image: freddyarte/product-service
     container_name: product-service
     #    mem_limit: 700m
     ports:
@@ -215,7 +215,7 @@ services:
 
   order-service:
     #    build: ../../order
-    image: arkam/order-service
+    image: freddyarte/order-service
     container_name: order-service
     #    mem_limit: 700m
     ports:
@@ -241,7 +241,7 @@ services:
 
   notification-service:
     #    build: ../../order
-    image: arkam/notification-service
+    image: freddyarte/notification-service
     container_name: notification-service
     #    mem_limit: 700m
     environment:

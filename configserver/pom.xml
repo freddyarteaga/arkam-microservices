@@ -84,6 +84,24 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.6</version>
+				<configuration>
+					<from>
+						<image>gcr.io/distroless/java21</image>
+					</from>
+					<to>
+						<image>freddyarte/config-server</image>
+					</to>
+		<!--					<auth>-->
+		<!--						<username>${env.DOCKER_USERNAME}</username>-->
+		<!--						<password>${env.DOCKER_PASSWORD}</password>-->
+		<!--					</auth>-->
+				</configuration>
+			</plugin>
+
 
 		</plugins>
 	</build>

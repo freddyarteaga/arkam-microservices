@@ -140,6 +140,19 @@
 					</image>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.6</version>
+				<configuration>
+					<from>
+						<image>gcr.io/distroless/java21</image>
+					</from>
+					<to>
+						<image>freddyarte/product-service</image>
+					</to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
