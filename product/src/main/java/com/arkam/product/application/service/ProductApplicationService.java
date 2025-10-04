@@ -7,11 +7,10 @@ import com.arkam.product.application.port.out.ProductRepositoryPort;
 import com.arkam.product.domain.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,52 +19,52 @@ public class ProductApplicationService implements CreateProductUseCase, GetProdu
     private final ProductRepositoryPort productRepository;
 
     @Override
-    public ProductResponse createProduct(ProductRequest request) {
+    public Mono<ProductResponse> createProduct(ProductRequest request) {
         Product product = mapToDomain(request);
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
-        Product savedProduct = productRepository.save(product);
-        return mapToResponse(savedProduct);
+        return productRepository.save(product)
+                .map(this::mapToResponse);
     }
 
     @Override
-    public Optional<ProductResponse> getProduct(String id) {
-        return productRepository.findByIdAndActiveTrue(Long.valueOf(id)).map(this::mapToResponse);
+    public Mono<ProductResponse> getProduct(String id) {
+        return productRepository.findByIdAndActiveTrue(id)
+                .map(this::mapToResponse);
     }
 
     @Override
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findByActiveTrue().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public Flux<ProductResponse> getAllProducts() {
+        return productRepository.findByActiveTrue()
+                .map(this::mapToResponse);
     }
 
     @Override
-    public Optional<ProductResponse> updateProduct(Long id, ProductRequest request) {
+    public Mono<ProductResponse> updateProduct(String id, ProductRequest request) {
         return productRepository.findById(id)
-                .map(existingProduct -> {
+                .flatMap(existingProduct -> {
                     updateProductFromRequest(existingProduct, request);
                     existingProduct.setUpdatedAt(LocalDateTime.now());
-                    Product savedProduct = productRepository.save(existingProduct);
-                    return mapToResponse(savedProduct);
-                });
+                    return productRepository.save(existingProduct);
+                })
+                .map(this::mapToResponse);
     }
 
     @Override
-    public boolean deleteProduct(Long id) {
+    public Mono<Boolean> deleteProduct(String id) {
         return productRepository.findById(id)
-                .map(product -> {
+                .flatMap(product -> {
                     product.setActive(false);
-                    productRepository.save(product);
-                    return true;
-                }).orElse(false);
+                    return productRepository.save(product)
+                            .then(Mono.just(true));
+                })
+                .defaultIfEmpty(false);
     }
 
     @Override
-    public List<ProductResponse> searchProducts(String keyword) {
-        return productRepository.searchProducts(keyword).stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public Flux<ProductResponse> searchProducts(String keyword) {
+        return productRepository.searchProducts(keyword)
+                .map(this::mapToResponse);
     }
 
     private Product mapToDomain(ProductRequest request) {

@@ -1,5 +1,7 @@
 package com.arkam.product.application.port.in;
 
+import reactor.core.publisher.Mono;
+
 public interface DeleteProductUseCase {
-    boolean deleteProduct(Long id);
+    Mono<Boolean> deleteProduct(String id);
 }

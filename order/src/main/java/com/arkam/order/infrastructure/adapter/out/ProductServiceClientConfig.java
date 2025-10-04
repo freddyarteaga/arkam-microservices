@@ -3,26 +3,20 @@ package com.arkam.order.infrastructure.adapter.out;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.support.RestClientAdapter;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
-
-import java.util.Optional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class ProductServiceClientConfig {
     @Bean
-    public ProductServiceClient productServiceInterface(RestClient.Builder restClientBuilder) {
-        RestClient restClient = restClientBuilder
-                            .baseUrl("http://product-service")
-                            .defaultStatusHandler(HttpStatusCode::is4xxClientError,
-                                        ((request, response) -> Optional.empty()))
-                            .build();
-        RestClientAdapter adapter = RestClientAdapter.create(restClient);
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                                            .builderFor(adapter)
-                                            .build();
-        return factory.createClient(ProductServiceClient.class);
+    @LoadBalanced
+    public WebClient.Builder productWebClientBuilder() {
+        return WebClient.builder();
+    }
+
+    @Bean
+    public WebClient productServiceWebClient(WebClient.Builder productWebClientBuilder) {
+        return productWebClientBuilder
+                .baseUrl("http://product-service")
+                .build();
     }
 }

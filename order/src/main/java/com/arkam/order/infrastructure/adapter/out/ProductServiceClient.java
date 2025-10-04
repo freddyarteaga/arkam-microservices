@@ -1,13 +1,22 @@
 package com.arkam.order.infrastructure.adapter.out;
 
 import com.arkam.order.application.dto.ProductResponse;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.service.annotation.GetExchange;
-import org.springframework.web.service.annotation.HttpExchange;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-@HttpExchange
-public interface ProductServiceClient {
+@Component
+@RequiredArgsConstructor
+public class ProductServiceClient {
 
-    @GetExchange("/api/products/{id}")
-    ProductResponse getProductDetails(@PathVariable String id);
+    private final WebClient productServiceWebClient;
+
+    public Mono<ProductResponse> getProductDetails(String id) {
+        return productServiceWebClient.get()
+                .uri("/api/products/{id}", id)
+                .retrieve()
+                .bodyToMono(ProductResponse.class)
+                .onErrorResume(ex -> Mono.empty()); // Handle errors gracefully
+    }
 }

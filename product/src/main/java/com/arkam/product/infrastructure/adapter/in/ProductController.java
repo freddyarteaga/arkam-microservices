@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,40 +32,44 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
-        ProductResponse response = createProductUseCase.createProduct(productRequest);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public Mono<ResponseEntity<ProductResponse>> createProduct(@RequestBody ProductRequest productRequest) {
+        return createProductUseCase.createProduct(productRequest)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.CREATED))
+                .onErrorResume(IllegalArgumentException.class,
+                        ex -> Mono.just(ResponseEntity.badRequest().build()));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts() {
-        return ResponseEntity.ok(getAllProductsUseCase.getAllProducts());
+    public Flux<ProductResponse> getProducts() {
+        return getAllProductsUseCase.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable String id) {
+    public Mono<ResponseEntity<ProductResponse>> getProductById(@PathVariable String id) {
         return getProductUseCase.getProduct(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(
-            @PathVariable Long id,
+    public Mono<ResponseEntity<ProductResponse>> updateProduct(
+            @PathVariable String id,
             @RequestBody ProductRequest productRequest) {
         return updateProductUseCase.updateProduct(id, productRequest)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        boolean deleted = deleteProductUseCase.deleteProduct(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable String id) {
+        return deleteProductUseCase.deleteProduct(id)
+                .flatMap(deleted -> deleted ?
+                        Mono.just(ResponseEntity.noContent().build()) :
+                        Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam String keyword) {
-        return ResponseEntity.ok(searchProductsUseCase.searchProducts(keyword));
+    public Flux<ProductResponse> searchProducts(@RequestParam String keyword) {
+        return searchProductsUseCase.searchProducts(keyword);
     }
 }

@@ -1,8 +1,8 @@
 package com.arkam.product.application.port.in;
 
 import com.arkam.product.application.dto.ProductResponse;
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 public interface GetProductUseCase {
-    Optional<ProductResponse> getProduct(String id);
+    Mono<ProductResponse> getProduct(String id);
 }

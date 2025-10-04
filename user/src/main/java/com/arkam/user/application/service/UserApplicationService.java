@@ -12,11 +12,10 @@ import com.arkam.user.domain.model.Address;
 import com.arkam.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,47 +25,46 @@ public class UserApplicationService implements CreateUserUseCase, GetUserUseCase
     private final KeycloakServicePort keycloakService;
 
     @Override
-    public UserResponse createUser(UserRequest request) {
+    public Mono<UserResponse> createUser(UserRequest request) {
         // Domain validation
         if (!isValidRequest(request)) {
-            throw new IllegalArgumentException("Invalid user request");
+            return Mono.error(new IllegalArgumentException("Consulta de usuario invalida"));
         }
 
-        String keycloakId = keycloakService.createUser(request);
-        keycloakService.assignRole(request.getUsername(), "USER", keycloakId);
-
-        User user = mapToDomain(request);
-        user.setKeycloakId(keycloakId);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
-
-        User savedUser = userRepository.save(user);
-        return mapToResponse(savedUser);
+        return Mono.fromCallable(() -> keycloakService.createUser(request))
+                .flatMap(keycloakId -> {
+                    keycloakService.assignRole(request.getUsername(), "USER", keycloakId);
+                    User user = mapToDomain(request);
+                    user.setKeycloakId(keycloakId);
+                    user.setCreatedAt(LocalDateTime.now());
+                    user.setUpdatedAt(LocalDateTime.now());
+                    return userRepository.save(user);
+                })
+                .map(this::mapToResponse);
     }
 
     @Override
-    public Optional<UserResponse> getUser(String id) {
-        return userRepository.findById(id).map(this::mapToResponse);
+    public Mono<UserResponse> getUser(String id) {
+        return userRepository.findById(id)
+                .map(this::mapToResponse);
     }
 
     @Override
-    public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public Flux<UserResponse> getAllUsers() {
+        return userRepository.findAll()
+                .map(this::mapToResponse);
     }
 
     @Override
-    public boolean updateUser(String id, UserRequest request) {
-        Optional<User> existingUserOpt = userRepository.findById(id);
-        if (existingUserOpt.isPresent()) {
-            User existingUser = existingUserOpt.get();
-            updateUserFromRequest(existingUser, request);
-            existingUser.setUpdatedAt(LocalDateTime.now());
-            userRepository.save(existingUser);
-            return true;
-        }
-        return false;
+    public Mono<Boolean> updateUser(String id, UserRequest request) {
+        return userRepository.findById(id)
+                .flatMap(existingUser -> {
+                    updateUserFromRequest(existingUser, request);
+                    existingUser.setUpdatedAt(LocalDateTime.now());
+                    return userRepository.save(existingUser)
+                            .then(Mono.just(true));
+                })
+                .defaultIfEmpty(false);
     }
 
     private boolean isValidRequest(UserRequest request) {

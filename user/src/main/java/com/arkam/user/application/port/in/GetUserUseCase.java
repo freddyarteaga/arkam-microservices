@@ -1,8 +1,8 @@
 package com.arkam.user.application.port.in;
 
 import com.arkam.user.application.dto.UserResponse;
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 public interface GetUserUseCase {
-    Optional<UserResponse> getUser(String id);
+    Mono<UserResponse> getUser(String id);
 }

@@ -1,7 +1,8 @@
 package com.arkam.user.application.port.in;
 
 import com.arkam.user.application.dto.UserRequest;
+import reactor.core.publisher.Mono;
 
 public interface UpdateUserUseCase {
-    boolean updateUser(String id, UserRequest request);
+    Mono<Boolean> updateUser(String id, UserRequest request);
 }

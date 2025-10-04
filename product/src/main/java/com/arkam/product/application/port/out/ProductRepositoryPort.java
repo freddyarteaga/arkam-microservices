@@ -1,13 +1,13 @@
 package com.arkam.product.application.port.out;
 
 import com.arkam.product.domain.model.Product;
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface ProductRepositoryPort {
-    Product save(Product product);
-    Optional<Product> findById(Long id);
-    List<Product> findByActiveTrue();
-    List<Product> searchProducts(String keyword);
-    Optional<Product> findByIdAndActiveTrue(Long id);
+    Mono<Product> save(Product product);
+    Mono<Product> findById(String id);
+    Flux<Product> findByActiveTrue();
+    Flux<Product> searchProducts(String keyword);
+    Mono<Product> findByIdAndActiveTrue(String id);
 }

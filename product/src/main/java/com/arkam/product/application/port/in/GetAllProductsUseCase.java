@@ -1,8 +1,8 @@
 package com.arkam.product.application.port.in;
 
 import com.arkam.product.application.dto.ProductResponse;
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface GetAllProductsUseCase {
-    List<ProductResponse> getAllProducts();
+    Flux<ProductResponse> getAllProducts();
 }

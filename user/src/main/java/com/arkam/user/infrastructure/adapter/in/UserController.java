@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,12 +26,12 @@ public class UserController {
     private final UpdateUserUseCase updateUserUseCase;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers(){
-        return new ResponseEntity<>(getAllUsersUseCase.getAllUsers(), HttpStatus.OK);
+    public Flux<UserResponse> getAllUsers(){
+        return getAllUsersUseCase.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable String id){
+    public Mono<ResponseEntity<UserResponse>> getUser(@PathVariable String id){
         log.info("Request received for user: {}", id);
 
         log.trace("This is TRACE level - Very detailed logs");
@@ -42,21 +42,23 @@ public class UserController {
 
         return getUserUseCase.getUser(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
-        UserResponse response = createUserUseCase.createUser(userRequest);
-        return ResponseEntity.ok(response);
+    public Mono<ResponseEntity<UserResponse>> createUser(@RequestBody UserRequest userRequest){
+        return createUserUseCase.createUser(userRequest)
+                .map(user -> ResponseEntity.status(HttpStatus.CREATED).body(user))
+                .onErrorResume(IllegalArgumentException.class,
+                        ex -> Mono.just(ResponseEntity.badRequest().build()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable String id,
-                                             @RequestBody UserRequest updateUserRequest){
-        boolean updated = updateUserUseCase.updateUser(id, updateUserRequest);
-        if (updated)
-            return ResponseEntity.ok("User updated successfully");
-        return ResponseEntity.notFound().build();
+    public Mono<ResponseEntity<String>> updateUser(@PathVariable String id,
+                                              @RequestBody UserRequest updateUserRequest){
+        return updateUserUseCase.updateUser(id, updateUserRequest)
+                .flatMap(updated -> updated ?
+                        Mono.just(ResponseEntity.ok("User updated successfully")) :
+                        Mono.just(ResponseEntity.notFound().build()));
     }
 }
