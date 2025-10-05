@@ -20,6 +20,11 @@ public class ProductApplicationService implements CreateProductUseCase, GetProdu
 
     @Override
     public Mono<ProductResponse> createProduct(ProductRequest request) {
+        // Domain validation
+        if (!isValidRequest(request)) {
+            return Mono.error(new IllegalArgumentException("se requiere nombre para el producto"));
+        }
+
         Product product = mapToDomain(request);
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
@@ -28,43 +33,47 @@ public class ProductApplicationService implements CreateProductUseCase, GetProdu
     }
 
     @Override
-    public Mono<ProductResponse> getProduct(String id) {
-        return productRepository.findByIdAndActiveTrue(id)
+    public Mono<ProductResponse> getProduct(Long id) {
+        return productRepository.findById(id)
+                .flatMap(optional -> optional.map(Mono::just).orElse(Mono.empty()))
                 .map(this::mapToResponse);
     }
 
     @Override
     public Flux<ProductResponse> getAllProducts() {
-        return productRepository.findByActiveTrue()
+        return productRepository.findAll()
                 .map(this::mapToResponse);
     }
 
     @Override
-    public Mono<ProductResponse> updateProduct(String id, ProductRequest request) {
+    public Mono<Boolean> updateProduct(Long id, ProductRequest request) {
         return productRepository.findById(id)
-                .flatMap(existingProduct -> {
-                    updateProductFromRequest(existingProduct, request);
-                    existingProduct.setUpdatedAt(LocalDateTime.now());
-                    return productRepository.save(existingProduct);
-                })
-                .map(this::mapToResponse);
+                .flatMap(optional -> optional.map(existing -> {
+                    updateProductFromRequest(existing, request);
+                    existing.setUpdatedAt(LocalDateTime.now());
+                    return productRepository.save(existing)
+                            .then(Mono.just(true));
+                }).orElse(Mono.just(false)));
     }
 
     @Override
-    public Mono<Boolean> deleteProduct(String id) {
+    public Mono<Boolean> deleteProduct(Long id) {
         return productRepository.findById(id)
-                .flatMap(product -> {
+                .flatMap(optional -> optional.map(product -> {
                     product.setActive(false);
                     return productRepository.save(product)
                             .then(Mono.just(true));
-                })
-                .defaultIfEmpty(false);
+                }).orElse(Mono.just(false)));
     }
 
     @Override
     public Flux<ProductResponse> searchProducts(String keyword) {
         return productRepository.searchProducts(keyword)
                 .map(this::mapToResponse);
+    }
+
+    private boolean isValidRequest(ProductRequest request) {
+        return request != null && request.getName() != null && !request.getName().trim().isEmpty();
     }
 
     private Product mapToDomain(ProductRequest request) {

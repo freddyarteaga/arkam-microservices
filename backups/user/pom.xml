@@ -12,7 +12,7 @@
 	<artifactId>user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>user</name>
-	<description>User Service for eCommerce Application</description>
+	<description>User Service for arkam Application</description>
 	<url/>
 	<licenses>
 		<license/>

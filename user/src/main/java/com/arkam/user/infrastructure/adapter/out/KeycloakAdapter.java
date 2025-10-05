@@ -68,12 +68,12 @@ public class KeycloakAdapter implements KeycloakServicePort {
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
         if (!HttpStatus.CREATED.equals(response.getStatusCode())) {
-            throw new RuntimeException("Failed to create user in keycloak " + response.getBody());
+            throw new RuntimeException("Falla al crear el usuario en keycloak " + response.getBody());
         }
 
         URI location = response.getHeaders().getLocation();
         if (location == null) {
-            throw new RuntimeException("Keycloak did not return Location Header " + response.getBody());
+            throw new RuntimeException("Keycloak no retorna la localizacion del header " + response.getBody());
         }
 
         String path = location.getPath();
@@ -96,7 +96,7 @@ public class KeycloakAdapter implements KeycloakServicePort {
         ResponseEntity<Void> response = restTemplate.postForEntity(url, entity, Void.class);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Failed to assign role " + roleName + " to user " + username + ": HTTP " + response.getStatusCode());
+            throw new RuntimeException("Falla asignando el role " + roleName + " to user " + username + ": HTTP " + response.getStatusCode());
         }
     }
 

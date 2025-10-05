@@ -80,7 +80,7 @@ management:
 resilience4j:
   circuitbreaker:
     instances:
-      arkamBreaker:
+      ecomBreaker:
         registerHealthIndicator: true
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
@@ -97,8 +97,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8443/realms/arkam-app
-          jwk-set-uri: http://keycloak:8080/realms/arkam-app/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8443/realms/ecom-app
+          jwk-set-uri: http://keycloak:8080/realms/ecom-app/protocol/openid-connect/certs
 
 eureka:
   client:

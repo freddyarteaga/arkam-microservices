@@ -4,5 +4,5 @@ import com.arkam.product.application.dto.ProductResponse;
 import reactor.core.publisher.Mono;
 
 public interface GetProductUseCase {
-    Mono<ProductResponse> getProduct(String id);
+    Mono<ProductResponse> getProduct(Long id);
 }

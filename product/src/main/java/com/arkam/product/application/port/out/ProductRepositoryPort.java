@@ -4,10 +4,12 @@ import com.arkam.product.domain.model.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 public interface ProductRepositoryPort {
     Mono<Product> save(Product product);
-    Mono<Product> findById(String id);
-    Flux<Product> findByActiveTrue();
+    Mono<Optional<Product>> findById(Long id);
+    Flux<Product> findAll();
     Flux<Product> searchProducts(String keyword);
-    Mono<Product> findByIdAndActiveTrue(String id);
+    Mono<Void> deleteById(Long id);
 }

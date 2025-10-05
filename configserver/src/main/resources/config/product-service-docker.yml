@@ -36,6 +36,7 @@ management:
     tracing:
       endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
 
+
 app:
   message: "Hello Product!"
 

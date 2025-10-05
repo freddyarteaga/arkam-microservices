@@ -99,12 +99,10 @@
 					</excludes>
 					<image>
 						<name>arkam/notification-service</name>
-						<env>
-							<BP_JVM_VERSION>21</BP_JVM_VERSION>
-						</env>
 					</image>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>

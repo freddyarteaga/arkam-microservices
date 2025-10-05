@@ -1,12 +1,15 @@
 package com.arkam.product.domain.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class Product {
-    private String id;
+    private Long id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -17,8 +20,12 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Domain business rule
+    // Domain business logic
     public boolean isAvailable() {
-        return active && stockQuantity > 0;
+        return active && stockQuantity != null && stockQuantity > 0;
+    }
+
+    public boolean hasValidPrice() {
+        return price != null && price.compareTo(BigDecimal.ZERO) > 0;
     }
 }

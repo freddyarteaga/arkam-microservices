@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI}
-      database: arkam_user
+      database: ecom_user
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
@@ -26,16 +26,13 @@ management:
     tracing:
       endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
 
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    hostname: user-service
-    instance-id: ${spring.application.name}:${server.port}
 
 logging:
   file:
@@ -52,6 +49,6 @@ keycloak:
     username: user
     password: user
     server-url: http://keycloak:8080
-    realm: arkam-app
+    realm: ecom-app
     client-id: admin-cli
     client-uid: 74d31cf4-5808-43de-93e0-01a079063245

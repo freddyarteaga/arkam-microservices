@@ -32,13 +32,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<UserResponse>> getUser(@PathVariable String id){
-        log.info("Request received for user: {}", id);
+        log.info("Petición recibida por el usuario: {}", id);
 
-        log.trace("This is TRACE level - Very detailed logs");
-        log.debug("This is DEBUG level - Used for development debugging");
-        log.info("This is INFO level - General system information");
-        log.warn("This is WARN level - Something might be wrong");
-        log.error("This is ERROR level - Something failed");
+        log.trace("nivel de traza - Very detailed logs");
+        log.debug("nivel de debbug - usado por los desarrolladores para debuggear");
+        log.info("nivel de finormación - infomracion general del sistema");
+        log.warn("nivel de emergencia- cuando algo puede fallar");
+        log.error("nivel de error - algo falla");
 
         return getUserUseCase.getUser(id)
                 .map(ResponseEntity::ok)
@@ -58,7 +58,7 @@ public class UserController {
                                               @RequestBody UserRequest updateUserRequest){
         return updateUserUseCase.updateUser(id, updateUserRequest)
                 .flatMap(updated -> updated ?
-                        Mono.just(ResponseEntity.ok("User updated successfully")) :
+                        Mono.just(ResponseEntity.ok("Usuario actualizado correctamente")) :
                         Mono.just(ResponseEntity.notFound().build()));
     }
 }

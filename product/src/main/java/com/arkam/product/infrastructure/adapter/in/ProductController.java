@@ -23,18 +23,17 @@ public class ProductController {
     private final SearchProductsUseCase searchProductsUseCase;
 
     @GetMapping("/simulate")
-    public ResponseEntity<String> simulateFailure(
-            @RequestParam(defaultValue = "false") boolean fail) {
+    public Mono<String> simulateFailure(@RequestParam(defaultValue = "false") boolean fail) {
         if (fail) {
-            throw new RuntimeException("Simulated Failure For Testing");
+            throw new RuntimeException("simulación de falla para testing");
         }
-        return ResponseEntity.ok("Product Service is OK");
+        return Mono.just("Servicio de productos funcionando correctamente");
     }
 
     @PostMapping
     public Mono<ResponseEntity<ProductResponse>> createProduct(@RequestBody ProductRequest productRequest) {
         return createProductUseCase.createProduct(productRequest)
-                .map(response -> new ResponseEntity<>(response, HttpStatus.CREATED))
+                .map(product -> ResponseEntity.status(HttpStatus.CREATED).body(product))
                 .onErrorResume(IllegalArgumentException.class,
                         ex -> Mono.just(ResponseEntity.badRequest().build()));
     }
@@ -45,27 +44,24 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<ProductResponse>> getProductById(@PathVariable String id) {
+    public Mono<ResponseEntity<ProductResponse>> getProductById(@PathVariable Long id) {
         return getProductUseCase.getProduct(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<ProductResponse>> updateProduct(
-            @PathVariable String id,
-            @RequestBody ProductRequest productRequest) {
+    public Mono<ResponseEntity<String>> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         return updateProductUseCase.updateProduct(id, productRequest)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                .flatMap(updated -> updated ?
+                        Mono.just(ResponseEntity.ok("Producto actualizado correctamente")) :
+                        Mono.just(ResponseEntity.notFound().build()));
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable String id) {
+    public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable Long id) {
         return deleteProductUseCase.deleteProduct(id)
-                .flatMap(deleted -> deleted ?
-                        Mono.just(ResponseEntity.noContent().build()) :
-                        Mono.just(ResponseEntity.notFound().build()));
+                .flatMap(deleted -> deleted ? Mono.just(ResponseEntity.noContent().build()) : Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/search")

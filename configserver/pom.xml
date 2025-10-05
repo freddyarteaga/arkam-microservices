@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -68,19 +68,8 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>arkam/config-server</name>
-						<env>
-							<BP_JVM_VERSION>21</BP_JVM_VERSION>
-						</env>
+						<name>ecom/config-server</name>
 					</image>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
-				<configuration>
-					<release>21</release>
 				</configuration>
 			</plugin>
 
@@ -95,14 +84,12 @@
 					<to>
 						<image>freddyarte/config-server</image>
 					</to>
-		<!--					<auth>-->
-		<!--						<username>${env.DOCKER_USERNAME}</username>-->
-		<!--						<password>${env.DOCKER_PASSWORD}</password>-->
-		<!--					</auth>-->
+<!--					<auth>-->
+<!--						<username>${env.DOCKER_USERNAME}</username>-->
+<!--						<password>${env.DOCKER_PASSWORD}</password>-->
+<!--					</auth>-->
 				</configuration>
 			</plugin>
-
-
 		</plugins>
 	</build>
 
