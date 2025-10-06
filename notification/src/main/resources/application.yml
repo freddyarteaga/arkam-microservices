@@ -1,6 +1,8 @@
 spring:
   application:
-    name: notification
+    name: notification-service
+  config:
+    import: optional:configserver:http://localhost:8888
   cloud:
     function:
       definition: orderCreated
@@ -25,9 +27,25 @@ spring:
 #    connection-timeout: 30000
 
 server:
-  port:
-    8084
+  port: 8084
 
+# Local development defaults
+app:
+  jwt:
+    secret: ${JWT_SECRET:mySecretKey}
+    expiration: 86400000  # 24 hours
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    s3:
+      bucket: ${S3_BUCKET:notification-templates}
+    ses:
+      from-email: ${SES_FROM_EMAIL:noreply@arkam.com}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 #rabbitmq:
 #  exchange:
