@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  MONGO_URI: "mongodb://mongo:27017/arkam_user"
+  DB_USER: "postgres"
+  RABBITMQ_HOST: "rabbitmq"
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USERNAME: "guest"
+  RABBITMQ_PASSWORD: "guest"
+  RABBITMQ_VHOST: "/"
+  ZIPKIN_URL: "http://zipkin:9411"
+  SPRING_PROFILES_ACTIVE: "docker"
