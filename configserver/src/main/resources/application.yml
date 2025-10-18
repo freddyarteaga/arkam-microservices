@@ -14,7 +14,7 @@ spring:
     config:
       server:
         native:
-          search-locations: file:///C:\Users\Freddy\OneDrive\Desktop\ARKAM SpringBoot\arkam-microservices\configserver\src\main\resources\config
+          search-locations: file:///D:\arkam-devops\arkam-microservices\configserver\src\main\resources\config
 
 server:
   port: 8888

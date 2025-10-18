@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-files
+data:
+  eureka-server.yml: |
+    eureka:
+      client:
+        register-with-eureka: false
+        fetch-registry: false
+      server:
+        waitTimeInMsWhenSyncEmpty: 0
+  gateway-service-docker.yml: |
+    server:
+      port: 8080
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+      endpoint:
+        health:
+          show-details: always
+      health:
+        circuitbreakers:
+          enabled: true
+      tracing:
+        sampling:
+          probability: 1.0
+      zipkin:
+        tracing:
+          endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
+    resilience4j:
+      circuitbreaker:
+        instances:
+          ecomBreaker:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 10s
+            failureRateThreshold: 50
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            slidingWindowType: count_based
+    spring:
+      security:
+        oauth2:
+          resourceserver:
+            jwt:
+              issuer-uri: http://keycloak:8080/realms/arkam-app
+              jwk-set-uri: http://keycloak:8080/realms/arkam-app/protocol/openid-connect/certs
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: http://eureka:8761/eureka/
+        register-with-eureka: true
+        fetch-registry: true
+  user-service-docker.yml: |
+    spring:
+      data:
+        mongodb:
+          uri: ${MONGO_URI}
+          database: arkam_user
+      rabbitmq:
+        host: ${RABBITMQ_HOST:localhost}
+        port: ${RABBITMQ_PORT:5672}
+        username: ${RABBITMQ_USERNAME:guest}
+        password: ${RABBITMQ_PASSWORD:guest}
+        virtual-host: ${RABBITMQ_VHOST:guest}
+        connection-timeout: 30000
+    server:
+      port: 8082
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+      tracing:
+        sampling:
+          probability: 1.0
+      zipkin:
+        tracing:
+          endpoint: ${ZIPKIN_URL:http://zipkin:9411/api/v2/spans}
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: http://eureka:8761/eureka/
+        register-with-eureka: true
+        fetch-registry: true
+    logging:
+      file:
+        name: logs/${spring.application.name}.log
+      logback:
+        rollingpolicy:
+          max-file-size: 5MB
+          max-history: 7
+    keycloak:
+      admin:
+        username: user
+        password: user
+        server-url: http://keycloak:8080
+        realm: arkam-app
+        client-id: admin-cli
+        client-uid: 74d31cf4-5808-43de-93e0-01a079063245
