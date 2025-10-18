@@ -1,4 +1,4 @@
-name: Deploy Product Service to AWS with JIB
+name: Deploy Product Service to AWS with jib
 
 on:
   push:
