@@ -62,11 +62,15 @@ jobs:
           exit 1
         fi
 
+    - name: Clean task definition file
+      run: |
+        jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .tags, .enableFaultInjection) | .' task-definition.json > cleaned-task-definition.json
+
     - name: Create new Task Definition with updated image
       id: render-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: task-definition.json
+        task-definition: cleaned-task-definition.json
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.jib.outputs.image }}
 
