@@ -3,13 +3,6 @@ kind: ConfigMap
 metadata:
   name: config-files
 data:
-  eureka-server.yml: |
-    eureka:
-      client:
-        register-with-eureka: false
-        fetch-registry: false
-      server:
-        waitTimeInMsWhenSyncEmpty: 0
   gateway-service-docker.yml: |
     server:
       port: 8080
@@ -47,7 +40,7 @@ data:
         oauth2:
           resourceserver:
             jwt:
-              issuer-uri: http://keycloak:8080/realms/arkam-app
+              issuer-uri: http://localhost:8443/realms/arkam-app
               jwk-set-uri: http://keycloak:8080/realms/arkam-app/protocol/openid-connect/certs
     eureka:
       client:

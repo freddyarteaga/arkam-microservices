@@ -1,11 +1,9 @@
-# Plan de Configuración de Kubernetes para Microservicios ARKAM
+# Kubernetes Configuration Plan for ARKAM Microservices
 
-## Resumen
+## Overview
+This document outlines the complete Kubernetes configuration for deploying the ARKAM microservices architecture in Minikube. Based on the existing Docker Compose setup, we've created equivalent Kubernetes manifests including Deployments, StatefulSets, Services, ConfigMaps, Secrets, Ingress, and monitoring components.
 
-Este documento describe la configuración completa de Kubernetes para desplegar la arquitectura de microservicios ARKAM en Minikube. Basado en la configuración existente de Docker Compose, hemos creado manifiestos equivalentes de Kubernetes incluyendo Deployments, StatefulSets, Services, ConfigMaps, Secrets, Ingress y componentes de monitoreo.
-
-## Estructura de Carpetas
-
+## Folder Structure
 ```
 K8S/
 ├── configmaps/
@@ -43,7 +41,7 @@ K8S/
 │   ├── grafana-deployment.yaml
 │   ├── loki-deployment.yaml
 │   └── alloy-deployment.yaml
-└── README.md (guía de despliegue)
+└── README.md (deployment guide)
 ```
 
 ## ConfigMaps
@@ -215,7 +213,7 @@ spec:
 
 ## Deployments
 
-### Deployments de Infraestructura
+### Infrastructure Deployments
 
 #### zookeeper-deployment.yaml
 ```yaml
@@ -466,7 +464,7 @@ spec:
           periodSeconds: 10
 ```
 
-### Deployments de Microservicios
+### Microservices Deployments
 
 #### gateway-deployment.yaml
 ```yaml
@@ -709,7 +707,7 @@ spec:
       - name: notification-service
         image: freddyarte/notification-service
         ports:
-        - containerPort: 8084  # Asumiendo un puerto, ajustar si es necesario
+        - containerPort: 8084  # Assuming a port, adjust if needed
         env:
         - name: SPRING_PROFILES_ACTIVE
           valueFrom:
@@ -930,7 +928,7 @@ spec:
               number: 9090
 ```
 
-## Monitoreo
+## Monitoring
 
 ### prometheus-deployment.yaml
 ```yaml
@@ -1023,9 +1021,9 @@ spec:
   type: LoadBalancer
 ```
 
-### loki-deployment.yaml (Simplificado - combina read, write, backend, gateway)
+### loki-deployment.yaml (Simplified - combine read, write, backend, gateway)
 ```yaml
-# Nota: La configuración completa de Loki es compleja; esta es una versión simplificada
+# Note: Full Loki setup is complex; this is a simplified version
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -1111,72 +1109,72 @@ spec:
     targetPort: 12345
 ```
 
-## Guía de Despliegue
+## Deployment Guide
 
-### Prerrequisitos
-- Minikube instalado
-- kubectl instalado
-- Imágenes Docker subidas a Docker Hub
+### Prerequisites
+- Minikube installed
+- kubectl installed
+- Docker images pushed to Docker Hub
 
-### Despliegue Paso a Paso
+### Step-by-Step Deployment
 
-1. **Iniciar Minikube**
+1. **Start Minikube**
    ```bash
    minikube start --memory=4096 --cpus=2
    minikube addons enable ingress
    ```
 
-2. **Habilitar Entorno Docker de Minikube**
+2. **Enable Minikube Docker Environment**
    ```bash
    eval $(minikube docker-env)
    ```
 
-3. **Aplicar ConfigMaps y Secrets**
+3. **Apply ConfigMaps and Secrets**
    ```bash
    kubectl apply -f K8S/configmaps/
    kubectl apply -f K8S/secrets/
    ```
 
-4. **Aplicar PersistentVolumeClaims**
+4. **Apply PersistentVolumeClaims**
    ```bash
    kubectl apply -f K8S/pvcs/
    ```
 
-5. **Desplegar Bases de Datos**
+5. **Deploy Databases**
    ```bash
    kubectl apply -f K8S/statefulsets/
    ```
 
-6. **Desplegar Servicios de Infraestructura**
+6. **Deploy Infrastructure Services**
    ```bash
    kubectl apply -f K8S/deployments/infrastructure/
    kubectl apply -f K8S/services/infrastructure-services.yaml
    ```
 
-7. **Desplegar Microservicios**
+7. **Deploy Microservices**
    ```bash
    kubectl apply -f K8S/deployments/microservices/
    kubectl apply -f K8S/services/microservices-services.yaml
    ```
 
-8. **Desplegar Monitoreo**
+8. **Deploy Monitoring**
    ```bash
    kubectl apply -f K8S/monitoring/
    ```
 
-9. **Aplicar Ingress**
+9. **Apply Ingress**
    ```bash
    kubectl apply -f K8S/ingress/
    ```
 
-### Validaciones
+### Validations
 
-1. **Verificar Estado de Pods**
+1. **Check Pod Status**
    ```bash
    kubectl get pods
    ```
 
-2. **Verificar Servicios**
+2. **Check Services**
    ```bash
    kubectl get services
    ```
@@ -1185,7 +1183,7 @@ spec:
    ```bash
    # Gateway
    curl $(minikube service gateway-service --url)
-
+   
    # Eureka
    curl $(minikube service eureka --url)/eureka/apps
    ```
@@ -1195,31 +1193,31 @@ spec:
    kubectl logs -f deployment/gateway-service
    ```
 
-### Solución de Problemas
+### Troubleshooting
 
-- **Pods no inician**: Verificar límites de recursos y disponibilidad de imágenes
-- **Comunicación de servicios**: Verificar nombres de servicios y puertos
-- **Conexiones de base de datos**: Verificar enlace PVC e inicialización de base de datos
-- **Ingress no funciona**: Asegurar que el addon de ingress esté habilitado
+- **Pods not starting**: Check resource limits and image availability
+- **Service communication**: Verify service names and ports
+- **Database connections**: Check PVC binding and database initialization
+- **Ingress not working**: Ensure ingress addon is enabled
 
-### Mejores Prácticas
+### Best Practices
 
-#### Escalabilidad
-- Usar HorizontalPodAutoscaler para microservicios
-- Implementar requests y limits de recursos
-- Usar Cluster Autoscaler para nodos
+#### Scalability
+- Use HorizontalPodAutoscaler for microservices
+- Implement resource requests and limits
+- Use Cluster Autoscaler for nodes
 
-#### Seguridad
-- Usar NetworkPolicies para restringir tráfico
-- Implementar RBAC para control de acceso
-- Usar certificados TLS para ingress
-- Almacenar secretos en gestión externa de secretos
+#### Security
+- Use NetworkPolicies to restrict traffic
+- Implement RBAC for access control
+- Use TLS certificates for ingress
+- Store secrets in external secret management
 
-#### Monitoreo
-- Configurar alertas en Prometheus
-- Usar dashboards de Grafana para visualización
-- Implementar trazado distribuido con Zipkin
-- Monitorear logs con Loki y Alloy
+#### Monitoring
+- Set up alerts in Prometheus
+- Use Grafana dashboards for visualization
+- Implement distributed tracing with Zipkin
+- Monitor logs with Loki and Alloy
 
-## Próximos Pasos
-Cambiar a modo Code para crear los archivos YAML reales basados en este plan.
+## Next Steps
+Switch to Code mode to create the actual YAML files based on this plan.

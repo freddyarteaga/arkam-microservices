@@ -1,442 +1,296 @@
-# README - Despliegue en Kubernetes para Microservicios ARKAM
+# ARKAM Microservices Kubernetes Deployment Guide
 
-## Introducción
+This guide provides comprehensive instructions for deploying the ARKAM microservices architecture to a Kubernetes cluster using Minikube.
 
-Este documento proporciona una guía completa para desplegar la arquitectura de microservicios ARKAM en un clúster de Kubernetes. El proyecto implementa una arquitectura de microservicios utilizando Spring Boot, Spring Cloud y principios de Arquitectura Hexagonal, desplegada en Kubernetes con Minikube para desarrollo local.
+## Prerequisites
 
-### Arquitectura General
+- Minikube installed
+- kubectl installed
+- Docker images pushed to Docker Hub (freddyarte/*)
+- At least 8GB RAM and 4 CPU cores available
 
-La arquitectura incluye los siguientes componentes:
+## Step-by-Step Deployment
 
-- **Microservicios principales**: Gateway, User Service, Product Service, Order Service, Notification Service
-- **Infraestructura**: Eureka (descubrimiento de servicios), Config Server (configuración centralizada), Keycloak (autenticación), RabbitMQ (mensajería), PostgreSQL y MongoDB (bases de datos)
-- **Monitoreo**: Prometheus, Grafana, Loki y Alloy para observabilidad
-- **Orquestación**: Kubernetes con Deployments, StatefulSets, Services, ConfigMaps, Secrets e Ingress
-
-### Tecnologías Utilizadas
-
-- **Kubernetes**: Orquestación de contenedores
-- **Minikube**: Clúster local para desarrollo
-- **Spring Boot 3.4.3**: Framework de microservicios
-- **Spring Cloud**: Suite de herramientas para microservicios
-- **PostgreSQL**: Base de datos relacional
-- **MongoDB**: Base de datos NoSQL
-- **RabbitMQ**: Sistema de mensajería
-- **Keycloak**: Gestión de identidad y acceso
-- **Prometheus/Grafana**: Monitoreo y visualización
-- **Loki/Alloy**: Agregación y análisis de logs
-
-## Requisitos Previos
-
-Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
-
-- **Minikube**: `choco install minikube` (Windows) o equivalente para tu SO
-- **kubectl**: Herramienta de línea de comandos para Kubernetes
-- **Docker**: Para construir y gestionar imágenes de contenedores
-- **Git**: Para clonar el repositorio
-- **Java 21+**: Para desarrollo local (opcional)
-- **Maven 3.8+**: Para construcción de proyectos (opcional)
-
-### Verificación de Instalación
+### 1. Start Minikube
 
 ```bash
-# Verificar Minikube
-minikube version
-
-# Verificar kubectl
-kubectl version --client
-
-# Verificar Docker
-docker --version
+minikube start --memory=8192 --cpus=4
+minikube addons enable ingress
+minikube addons enable metrics-server
 ```
 
-## Instalación Paso a Paso
-
-### Paso 1: Preparar el Entorno
-
-1. **Iniciar Minikube** con recursos suficientes:
-   ```bash
-   minikube start --memory=4096 --cpus=2
-   ```
-
-2. **Habilitar el addon de Ingress**:
-   ```bash
-   minikube addons enable ingress
-   ```
-
-3. **Configurar Docker para usar el daemon de Minikube**:
-   ```bash
-   eval $(minikube docker-env)
-   ```
-
-### Paso 2: Construir y Publicar Imágenes Docker
-
-Si necesitas reconstruir las imágenes (opcional si ya están en Docker Hub):
+### 2. Enable Minikube Docker Environment
 
 ```bash
-# Navegar al directorio del proyecto
-cd d:/arkam-devops/arkam-microservices
-
-# Construir imágenes usando los scripts proporcionados
-./deploy/docker/build-images-jib.sh
-# o
-./deploy/docker/build-projects.sh && ./deploy/docker/build-images-buildpacks.sh
-
-# Verificar imágenes construidas
-docker images | grep freddyarte
+eval $(minikube docker-env)
 ```
 
-### Paso 3: Desplegar Configuraciones Base
+### 3. Apply ConfigMaps and Secrets
 
-1. **Aplicar ConfigMaps**:
-   ```bash
-   kubectl apply -f configmaps/app-config.yaml
-   ```
+```bash
+kubectl apply -f configmaps/
+kubectl apply -f secrets/
+```
 
-2. **Aplicar Secrets**:
-   ```bash
-   kubectl apply -f secrets/app-secrets.yaml
-   ```
+### 4. Apply PersistentVolumeClaims
 
-3. **Crear PersistentVolumeClaims**:
-   ```bash
-   kubectl apply -f pvcs/database-pvcs.yaml
-   ```
+```bash
+kubectl apply -f pvcs/
+```
 
-### Paso 4: Desplegar Bases de Datos
+### 5. Deploy Databases
 
 ```bash
 kubectl apply -f statefulsets/
 ```
 
-Verificar que los StatefulSets estén corriendo:
-```bash
-kubectl get statefulsets
-kubectl get pods
-```
-
-### Paso 5: Desplegar Servicios de Infraestructura
+### 6. Deploy Infrastructure Services
 
 ```bash
-# Aplicar deployments de infraestructura
 kubectl apply -f deployments/infrastructure/
-
-# Aplicar servicios de infraestructura
 kubectl apply -f services/infrastructure-services.yaml
 ```
 
-### Paso 6: Desplegar Microservicios
+Wait for services to be ready:
 
 ```bash
-# Aplicar deployments de microservices
-kubectl apply -f deployments/microservices/
+kubectl get pods
+```
 
-# Aplicar servicios de microservices
+### 7. Deploy Microservices
+
+```bash
+kubectl apply -f deployments/microservices/
 kubectl apply -f services/microservices-services.yaml
 ```
 
-### Paso 7: Configurar Monitoreo
+### 8. Deploy Monitoring (Optional)
 
 ```bash
 kubectl apply -f monitoring/
 ```
 
-### Paso 8: Configurar Ingress
+### 9. Apply Ingress
 
 ```bash
-kubectl apply -f ingress/ingress.yaml
+kubectl apply -f ingress/
 ```
 
-## Configuración
+## Validations
 
-### Variables de Entorno
-
-Las configuraciones principales se gestionan a través de ConfigMaps y Secrets:
-
-- **ConfigMap `app-config`**: Contiene URLs de servicios, perfiles Spring y configuraciones generales
-- **Secret `app-secrets`**: Almacena contraseñas y claves sensibles (codificadas en base64)
-
-### Configuración de Bases de Datos
-
-- **PostgreSQL**: Puerto 5432, usuario configurable via ConfigMap
-- **MongoDB**: Puerto 27017, base de datos `arkam_user`
-
-### Configuración de Mensajería
-
-- **RabbitMQ**: Puerto 5672 (AMQP), 15672 (Management UI)
-- **Credenciales**: Configuradas via ConfigMap y Secret
-
-### Configuración de Monitoreo
-
-- **Prometheus**: Puerto 9090
-- **Grafana**: Puerto 3000 (acceso anónimo habilitado)
-- **Loki**: Puerto 3100 para agregación de logs
-- **Alloy**: Puerto 12345 para recolección de métricas
-
-## Uso Básico
-
-### Acceder a los Servicios
-
-Una vez desplegado, puedes acceder a los servicios a través del Ingress:
+### Check Pod Status
 
 ```bash
-# Obtener la URL del clúster
-minikube service gateway-service --url
-# Ejemplo: http://192.168.49.2:30000
-
-# Acceder a servicios específicos
-# Gateway: http://arkam.local (si configurado en /etc/hosts)
-# Keycloak: http://arkam.local/keycloak
-# Grafana: http://arkam.local/grafana
-# Prometheus: http://arkam.local/prometheus
-```
-
-### Endpoints Principales
-
-- **API Gateway**: `GET /` - Punto de entrada principal
-- **Eureka Dashboard**: `GET /eureka/apps` - Lista de servicios registrados
-- **Health Checks**: `GET /actuator/health` en cada microservicio
-
-### Gestión de Usuarios (Keycloak)
-
-1. Accede a Keycloak: `http://arkam.local/keycloak`
-2. Credenciales por defecto: `admin` / `admin`
-3. Crea realms, clientes y usuarios según necesites
-
-### Monitoreo y Logs
-
-- **Grafana**: Visualiza métricas y dashboards
-- **Prometheus**: Consulta métricas directamente
-- **Loki**: Busca y analiza logs centralizados
-
-## Uso Avanzado
-
-### Escalado de Servicios
-
-```bash
-# Escalar un deployment
-kubectl scale deployment user-service --replicas=3
-
-# Verificar escalado
 kubectl get pods
 ```
 
-### Actualización de Imágenes
+All pods should be in `Running` state.
+
+### Check Services
 
 ```bash
-# Actualizar imagen de un servicio
-kubectl set image deployment/gateway-service gateway=freddyarte/gateway-service:latest
-
-# Verificar rollout
-kubectl rollout status deployment/gateway-service
+kubectl get services
 ```
 
-### Gestión de Configuración
+### Health Checks
 
-Para cambiar configuraciones sin reconstruir imágenes:
+#### Gateway Service
+```bash
+curl $(minikube service gateway-service --url)
+```
 
-1. Edita el ConfigMap:
-   ```bash
-   kubectl edit configmap app-config
-   ```
+#### Eureka Server
+```bash
+curl $(minikube service eureka --url)/eureka/apps
+```
 
-2. Reinicia los pods afectados:
-   ```bash
-   kubectl rollout restart deployment/gateway-service
-   ```
+#### Individual Services
+```bash
+# User Service
+curl $(minikube service user-service --url)/actuator/health
 
-### Backup y Restauración
+# Product Service
+curl $(minikube service product-service --url)/actuator/health
+
+# Order Service
+curl $(minikube service order-service --url)/actuator/health
+```
+
+### Logs
 
 ```bash
-# Backup de datos (ejemplo para PostgreSQL)
-kubectl exec -it postgres-0 -- pg_dump -U postgres arkam_order > order_backup.sql
+# View logs for a specific service
+kubectl logs -f deployment/gateway-service
 
-# Para MongoDB
-kubectl exec -it mongo-0 -- mongodump --db arkam_user --out /backup
+# View logs for all services
+kubectl logs -f -l app.kubernetes.io/name
 ```
 
-## Ejemplos de Código
+## Accessing Services
 
-### Cliente REST Básico
+### Via LoadBalancer Services
 
 ```bash
-# Crear un usuario
-curl -X POST http://arkam.local/api/users \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "testuser",
-    "email": "test@example.com",
-    "firstName": "Test",
-    "lastName": "User"
-  }'
+# Gateway
+minikube service gateway-service
 
-# Obtener productos
-curl http://arkam.local/api/products
+# Keycloak
+minikube service keycloak
 
-# Crear una orden
-curl -X POST http://arkam.local/api/orders \
-  -H "X-User-ID: testuser" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "items": [
-      {
-        "productId": "prod123",
-        "quantity": 2
-      }
-    ]
-  }'
+# Grafana
+minikube service grafana
+
+# Prometheus
+minikube service prometheus
 ```
 
-### Configuración Programática
+### Via Ingress
 
-```java
-// Configuración de cliente Kubernetes (ejemplo)
-@Configuration
-public class KubernetesConfig {
-
-    @Bean
-    public KubernetesClient kubernetesClient() {
-        return new DefaultKubernetesClient();
-    }
-}
+Add to `/etc/hosts`:
+```
+192.168.49.2 arkam.local
 ```
 
-### Métricas Personalizadas
+Then access:
+- Gateway: http://arkam.local
+- Keycloak: http://arkam.local/keycloak
+- Grafana: http://arkam.local/grafana
+- Prometheus: http://arkam.local/prometheus
 
-```yaml
-# Ejemplo de configuración Prometheus
-scrape_configs:
-  - job_name: 'microservices'
-    kubernetes_sd_configs:
-      - role: pod
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_label_app]
-        regex: '.*-service'
-        action: keep
-```
+## Troubleshooting
 
-## Solución de Problemas
+### Common Issues
 
-### Verificación de Estado
+1. **Pods not starting**
+   - Check resource limits: `kubectl describe pod <pod-name>`
+   - Verify image availability: `docker images | grep freddyarte`
+   - Check PVC binding: `kubectl get pvc`
+
+2. **Service communication issues**
+   - Verify service names: `kubectl get services`
+   - Check DNS resolution: `kubectl exec -it <pod> -- nslookup <service-name>`
+   - Review environment variables in deployments
+
+3. **Database connection failures**
+   - Check StatefulSet status: `kubectl get statefulsets`
+   - Verify PVC creation: `kubectl get pvc`
+   - Check database logs: `kubectl logs <postgres-pod>`
+
+4. **Ingress not working**
+   - Ensure ingress addon is enabled: `minikube addons list | grep ingress`
+   - Check ingress resource: `kubectl get ingress`
+   - Verify host entry in /etc/hosts
+
+### Debugging Commands
 
 ```bash
-# Ver estado general
-kubectl get all
+# Get detailed pod information
+kubectl describe pod <pod-name>
 
-# Ver logs de un pod específico
-kubectl logs -f pod/gateway-service-12345-abcde
-
-# Ver eventos del clúster
+# Check events
 kubectl get events --sort-by=.metadata.creationTimestamp
 
-# Ver uso de recursos
-kubectl top pods
-kubectl top nodes
+# Port forward for debugging
+kubectl port-forward deployment/gateway-service 8080:8080
+
+# Execute into a pod
+kubectl exec -it <pod-name> -- /bin/bash
 ```
 
-### Problemas Comunes
+## Best Practices
 
-1. **Pods en estado Pending**:
-   - Verificar recursos disponibles: `kubectl describe pod <pod-name>`
-   - Revisar límites de recursos en los deployments
+### Scalability
 
-2. **Errores de conectividad**:
-   - Verificar servicios: `kubectl get services`
-   - Comprobar DNS: `kubectl exec -it <pod> -- nslookup <service-name>`
+- **Horizontal Pod Autoscaling**: Implement HPA for microservices based on CPU/memory usage
+  ```yaml
+  apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: gateway-hpa
+  spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: gateway-service
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+  ```
 
-3. **Errores de base de datos**:
-   - Verificar PVCs: `kubectl get pvc`
-   - Revisar logs de base de datos: `kubectl logs -f statefulset/postgres`
+- **Resource Limits**: Set appropriate requests and limits
+- **Cluster Autoscaling**: Use CA for node scaling
 
-4. **Problemas de Ingress**:
-   - Verificar addon: `minikube addons list | grep ingress`
-   - Comprobar configuración: `kubectl describe ingress arkam-ingress`
+### Security
 
-### Comandos Útiles
+- **Network Policies**: Restrict traffic between pods
+  ```yaml
+  apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    name: deny-all
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+    - Egress
+  ```
+
+- **RBAC**: Implement Role-Based Access Control
+- **TLS Certificates**: Use cert-manager for ingress TLS
+- **Secrets Management**: Use external secret management (Vault, AWS Secrets Manager)
+
+### Monitoring
+
+- **Metrics Collection**: Use Prometheus for metrics
+- **Distributed Tracing**: Zipkin for request tracing
+- **Log Aggregation**: Loki for centralized logging
+- **Alerting**: Set up alerts in Prometheus for critical issues
+
+### Backup and Recovery
+
+- **Database Backups**: Regular backups of PostgreSQL and MongoDB
+- **Persistent Volumes**: Use reliable storage classes
+- **Disaster Recovery**: Multi-zone deployments for high availability
+
+## Architecture Overview
+
+```
+Internet
+    |
+  Ingress
+    |
+LoadBalancer Services (Gateway, Keycloak, Monitoring)
+    |
+  Microservices (User, Product, Order, Notification)
+    |
+Infrastructure (Eureka, Config Server, RabbitMQ, Kafka)
+    |
+  Databases (PostgreSQL, MongoDB)
+```
+
+## Cleanup
 
 ```bash
-# Limpiar todo el despliegue
-kubectl delete all --all --all-namespaces
+# Delete all resources
+kubectl delete -f . --recursive
 
-# Reiniciar Minikube
-minikube stop && minikube start
+# Stop Minikube
+minikube stop
 
-# Acceder a un pod
-kubectl exec -it <pod-name> -- /bin/bash
-
-# Port forwarding para debugging
-kubectl port-forward svc/gateway-service 8080:8080
+# Delete Minikube cluster
+minikube delete
 ```
 
-## Mejores Prácticas
+## Next Steps
 
-### Escalabilidad
-
-- **Horizontal Pod Autoscaling**: Implementa HPA para microservicios basado en uso de CPU/memoria
-- **Límites de Recursos**: Establece requests y limits apropiados
-- **Autoescalado de Clúster**: Usa CA para escalado de nodos
-
-### Seguridad
-
-- **Políticas de Red**: Restringe el tráfico entre pods
-- **RBAC**: Implementa control de acceso basado en roles
-- **Certificados TLS**: Usa cert-manager para TLS en ingress
-- **Gestión de Secretos**: Usa gestión externa de secretos (Vault, AWS Secrets Manager)
-
-### Monitoreo
-
-- **Recolección de Métricas**: Usa Prometheus para métricas
-- **Trazado Distribuido**: Zipkin para trazado de requests
-- **Agregación de Logs**: Loki para logging centralizado
-- **Alertas**: Configura alertas en Prometheus para issues críticos
-
-## Contribución
-
-### Desarrollo Local
-
-1. Clona el repositorio:
-   ```bash
-   git clone <repository-url>
-   cd arkam-microservices
-   ```
-
-2. Ejecuta localmente con Docker Compose (alternativa a K8s):
-   ```bash
-   cd deploy/docker
-   docker-compose up -d
-   ```
-
-3. Para desarrollo con K8s:
-   - Modifica los archivos YAML en `K8S/`
-   - Reconstruye imágenes si es necesario
-   - Aplica cambios: `kubectl apply -f <modified-file>`
-
-### Mejores Prácticas de Contribución
-
-- **Versionado**: Usa tags semánticos para imágenes Docker
-- **CI/CD**: Implementa pipelines automatizados para construcción y despliegue
-- **Testing**: Incluye tests de integración para K8s
-- **Documentación**: Mantén actualizada esta guía
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## Enlaces Útiles
-
-- [Documentación de Kubernetes](https://kubernetes.io/docs/)
-- [Guía de Minikube](https://minikube.sigs.k8s.io/docs/)
-- [Spring Cloud Kubernetes](https://spring.io/projects/spring-cloud-kubernetes)
-- [Prometheus Documentation](https://prometheus.io/docs/)
-- [Grafana Documentation](https://grafana.com/docs/)
-
-## Soporte
-
-Para soporte técnico o preguntas:
-- Crea un issue en el repositorio del proyecto
-- Revisa los logs de los pods para diagnóstico
-- Consulta la documentación de troubleshooting arriba
-
----
-
-**Nota**: Esta guía asume un entorno de desarrollo local con Minikube. Para producción, considera usar un clúster gestionado como EKS, GKE o AKS con configuraciones de seguridad adicionales.
+- Implement CI/CD pipelines for automated deployments
+- Set up monitoring dashboards in Grafana
+- Configure log aggregation and alerting
+- Implement security scanning and compliance checks
+- Set up backup and disaster recovery procedures

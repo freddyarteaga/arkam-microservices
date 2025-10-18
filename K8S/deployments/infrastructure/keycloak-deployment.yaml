@@ -28,7 +28,7 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: KC_BOOTSTRAP_ADMIN_PASSWORD
-        args: ["start-dev"]
+        command: ["start-dev"]
         resources:
           limits:
             memory: 700Mi
