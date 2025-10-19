@@ -16,7 +16,7 @@ env:
   ECS_SERVICE_NAME: config-server-svc
   ECS_TASK_DEFINITION_PATH: ecs/config-server-task-definition.json # Ruta a la nueva plantilla
   CONTAINER_NAME: config-server-container
-  IMAGE_REPO: config-server
+  IMAGE_REPO: configserver
 
 jobs:
   build-and-deploy:
