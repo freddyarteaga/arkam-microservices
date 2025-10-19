@@ -6,15 +6,17 @@ on:
       - main
     paths:
       - 'configserver/**' # Se activa solo con cambios en la carpeta configserver
+      - '.github/workflows/deploy-config-server.yml'
+      - 'ecs/config-server-task-definition.json'
   workflow_dispatch: # Permite ejecutarlo manualmente
 
 env:
   AWS_REGION: us-east-1 # Cambia esto a tu región de AWS
   ECS_CLUSTER_NAME: arkam-cluster
-  ECS_SERVICE_NAME: config-server-svc # <-- CAMBIO
-  ECS_TASK_DEFINITION_NAME: config-server-task # <-- CAMBIO
-  CONTAINER_NAME: config-server-container # <-- CAMBIO
-  IMAGE_REPO: config-server # <-- CAMBIO
+  ECS_SERVICE_NAME: config-server-svc
+  ECS_TASK_DEFINITION_PATH: ecs/config-server-task-definition.json # Ruta a la nueva plantilla
+  CONTAINER_NAME: config-server-container
+  IMAGE_REPO: config-server
 
 jobs:
   build-and-deploy:
@@ -53,22 +55,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Download existing ECS Task Definition
-      id: download-task-def
-      run: |
-        # Descargamos la task definition si existe, si no, el paso falla y sabemos que hay que crearla
-        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION_NAME }} --query taskDefinition > task-definition.json || exit 0
-
-    - name: Clean task definition file
-      if: steps.download-task-def.outputs.exit_code != '1' # Solo si el archivo se descargó
-      run: |
-        jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .tags, .enableFaultInjection) | .' task-definition.json > cleaned-task-definition.json
-
     - name: Create new Task Definition with updated image
       id: render-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: cleaned-task-definition.json
+        task-definition: ${{ env.ECS_TASK_DEFINITION_PATH }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.jib.outputs.image }}
 

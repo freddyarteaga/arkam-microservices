@@ -1,0 +1,38 @@
+{
+    "family": "config-server-task",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "config-server-container",
+            "image": "PLACEHOLDER_IMAGE_URI",
+            "portMappings": [
+                {
+                    "containerPort": 8888,
+                    "hostPort": 8888,
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "SPRING_CLOUD_BUS_ENABLED",
+                    "value": "false"
+                },
+                {
+                    "name": "SPRING_CLOUD_CONFIG_SERVER_GIT_URI",
+                    "value": "https://github.com/freddyarteaga/arkam-microservices"
+                },
+                {
+                    "name": "SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS",
+                    "value": "configserver/src/main/resources/config"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::730335253505:role/ecsTaskExecutionRole"
+}

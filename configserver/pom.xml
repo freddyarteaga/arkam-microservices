@@ -68,7 +68,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>ecom/config-server</name>
+						<name>arkam/config-server</name>
 					</image>
 				</configuration>
 			</plugin>
