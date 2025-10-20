@@ -1,22 +1,22 @@
-name: Deploy Config Server to AWS with Jib
+name: Deploy Eureka Server to AWS with Jib
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'configserver/**' # Se activa solo con cambios en la carpeta configserver
-      - '.github/workflows/deploy-config-server.yml'
-      - 'ecs/config-server-task-definition.json'
+      - 'eureka/**'
+      - '.github/workflows/deploy-eureka-server.yml'
+      - 'ecs/eureka-server-task-definition.json'
   workflow_dispatch: # Permite ejecutarlo manualmente
 
 env:
-  AWS_REGION: us-east-1 # Cambia esto a tu región de AWS
+  AWS_REGION: us-east-1
   ECS_CLUSTER_NAME: arkam-cluster
-  ECS_SERVICE_NAME: config-server-svc
-  ECS_TASK_DEFINITION_PATH: ecs/config-server-task-definition.json # Ruta a la nueva plantilla
-  CONTAINER_NAME: config-server-container
-  IMAGE_REPO: configserver
+  ECS_SERVICE_NAME: eureka-server-svc
+  ECS_TASK_DEFINITION_PATH: ecs/eureka-server-task-definition.json
+  CONTAINER_NAME: eureka-server-container
+  IMAGE_REPO: eurekaserver
 
 jobs:
   build-and-deploy:
@@ -43,14 +43,13 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -f configserver/pom.xml -B verify sonar:sonar
+      run: mvn -f eureka/pom.xml -B verify sonar:sonar
 
     - name: Build and Push Docker Image with Jib
       id: jib
       run: |
         IMAGE_TAG=${{ github.sha }}
-        # Apuntamos al pom.xml del configserver
-        mvn -f configserver/pom.xml compile jib:build -Dimage=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}:$IMAGE_TAG
+        mvn -f eureka/pom.xml compile jib:build -Dimage=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}:$IMAGE_TAG
         
         echo "image=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
